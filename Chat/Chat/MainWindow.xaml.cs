@@ -61,6 +61,7 @@ namespace Chat
             }
         }
 
+        //Adiciona as mensagens do usuario atual
         public void atualizarChat(int i)
         {
             //Cria o balão
@@ -97,6 +98,7 @@ namespace Chat
             Grid.SetColumn(border, 0);
         }
 
+        //Adiciona as mensagens da pessoa com quem conversa
         public void atualizarChat2(int i)
         {
             //Cria o balão
@@ -115,7 +117,7 @@ namespace Chat
             //Cria a borda arredondada
             Border border = new Border()
             {
-                Background = new SolidColorBrush(Colors.White),
+                Background = new SolidColorBrush(Colors.Bisque),
                 Margin = new Thickness(10, 5, 0, 5),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -135,38 +137,11 @@ namespace Chat
 
         private void botaoEnviar_Click(object sender, RoutedEventArgs e)
         {
-            //Cria o balão
-            Grid gridTexto = new Grid();
+            remetente.Add(usuario);
+            destinatario.Add(usuario2);
+            conteudo.Add(campoMensagem.Text);
 
-            gridMensagens.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-            //Cria o texto que vai no balão
-            TextBlock newTextBlock = new TextBlock()
-            {
-                Text = campoMensagem.Text,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5),
-            };
-
-            //Cria a borda arredondada
-            Border border = new Border()
-            {
-                Background = new SolidColorBrush(Colors.White),
-                Margin = new Thickness(0, 5, 10, 5),
-                CornerRadius = new CornerRadius(5),
-                HorizontalAlignment = HorizontalAlignment.Right,
-                VerticalAlignment = VerticalAlignment.Bottom,
-                Child = gridTexto
-            };
-
-            gridMensagens.Children.Add(border);
-
-            //Adiciona o texto no balão
-            gridTexto.Children.Add(newTextBlock);
-
-            //Adiciona o balão na tela
-            Grid.SetRow(border, gridMensagens.RowDefinitions.Count - 1);
-            Grid.SetColumn(border, 0);
+            atualizarChat(remetente.Count - 1);
 
             //Inverter
             /*int rowCount = gridMensagens.RowDefinitions.Count;
@@ -184,8 +159,10 @@ namespace Chat
             //Fazer animação do balão aparecendo
             //Não deixar enviar mensagem em branco
             //Função de apagar a mensagem
+            //Alterar cor dos balões
         }
 
+        //Enviar a mensagem pressionando "Enter"
         private void campoMensagem_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
