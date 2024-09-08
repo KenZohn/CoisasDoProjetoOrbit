@@ -7,22 +7,34 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="gridPrincipal" Background="#FF343434">
+        <TextBox x:Name="campoMensagem2" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Margin="100,0,0,20" TextWrapping="Wrap" Height="25" Width="200"/>
+        <Button x:Name="botaoEnviar2" Content=">" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Margin="305,0,0,20" Height="25" Width="25" Click="botaoEnviar2_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="3"/>
+                </Style>
+            </Button.Resources>
+        </Button>
         <Border Background="#FF292929" CornerRadius="5" HorizontalAlignment="Right" Width="300" Margin="0,15,15,15">
             <Grid x:Name="gridChat">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Grid x:Name="gridMensagens" Grid.Row="0">
-
-                </Grid>
+                <ScrollViewer x:Name="scrollChat" ScrollChanged="scrollChat_ScrollChanged">
+                    <Grid x:Name="gridMensagens" Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
+                </ScrollViewer>
                 <Grid Grid.Row="1" VerticalAlignment="Bottom" Height="40">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="35"/>
                     </Grid.ColumnDefinitions>
                     <TextBox x:Name="campoMensagem" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Height="25" KeyDown="campoMensagem_KeyDown"/>
-                    <Button x:Name="botaoEnviar" Content=">" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,0" Height="25"  Width="25" Click="botaoEnviar_Click">
+                    <Button x:Name="botaoEnviar" Content=">" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,0" Height="25" Width="25" Click="botaoEnviar_Click">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="3"/>

@@ -10,20 +10,37 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Chat
 {
     /// <summary>
     /// Interação lógica para MainWindow.xam
     /// </summary>
+
+    //Fazer animação do balão aparecendo
+    //Função de apagar a mensagem
+    //Colocar a data da mensagem
+    //Desativar o botão enviar quando o campo de mensagem estiver vazia
+    //Criar um dicionário para armazenar as informações
+    //Aumentar tamanho do campo quando passar pra linha de baixo
+    //Ajustar a largura máxima do balão
+    //Colocar foto e nome com quem fala
+    //Personalizar a barra de rolagem (cor e arredondamento)
+    //Mudar a cor do campo onde digita
+    //Mudar o botão de enviar
+
     public partial class MainWindow : Window
     {
         ArrayList remetente = new ArrayList(); //Código do usuário que enviou
         ArrayList destinatario = new ArrayList(); //Código do usuário que recebeu
         ArrayList conteudo = new ArrayList(); //Conteúdo da mensagem
+        ArrayList horario = new ArrayList(); //Horário da mensagem
+        ArrayList data = new ArrayList(); //Data da mensagem
 
         int usuario;
         int usuario2;
@@ -38,15 +55,19 @@ namespace Chat
             remetente.Add(1);
             destinatario.Add(2);
             conteudo.Add("Oi");
+            horario.Add("20:22");
             remetente.Add(2);
             destinatario.Add(1);
             conteudo.Add("Vamos comer?");
+            horario.Add("20:25");
             remetente.Add(1);
             destinatario.Add(2);
             conteudo.Add("Vamos");
+            horario.Add("20:30");
             remetente.Add(3);
             destinatario.Add(1);
             conteudo.Add("Elefante");
+            horario.Add("06:45");
 
             for (int i = 0; i < remetente.Count; i++)
             {
@@ -56,7 +77,7 @@ namespace Chat
                 }
                 else if ((int)destinatario[i] == usuario && (int)remetente[i] == usuario2)
                 {
-                    atualizarChat2(1);
+                    atualizarChat2(i);
                 }
             }
         }
@@ -66,7 +87,11 @@ namespace Chat
         {
             //Cria o balão
             Grid gridTexto = new Grid();
+            gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
+            gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
 
+
+            //Cria uma nova row no gridMensagens
             gridMensagens.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             //Cria o texto que vai no balão
@@ -81,21 +106,43 @@ namespace Chat
             Border border = new Border()
             {
                 Background = new SolidColorBrush(Colors.White),
-                Margin = new Thickness(0, 5, 10, 5),
+                Margin = new Thickness(-80, 5, 10, 5),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Child = gridTexto
             };
 
+            //Adiciona a borda no gridMensagens
             gridMensagens.Children.Add(border);
 
-            //Adiciona o texto no balão
+            //Pega o horário atual
+            TextBlock textHorario = new TextBlock()
+            {
+                Text = (string)horario[i],
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                FontSize = 8,
+                Opacity = 0.5
+            };
+
+            //Adiciona o texto e o horário no balão
+            Grid.SetColumn(newTextBlock, 0);
+            Grid.SetColumn(textHorario, 1);
             gridTexto.Children.Add(newTextBlock);
+            gridTexto.Children.Add(textHorario);
 
             //Adiciona o balão na tela
             Grid.SetRow(border, gridMensagens.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
+
+            //Animação
+            /*DoubleAnimation sizeAnimation = new DoubleAnimation();
+            sizeAnimation.From = 0;
+            sizeAnimation.To = border.ActualWidth;
+            sizeAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.05));
+            border.BeginAnimation(Border.WidthProperty, sizeAnimation);*/
         }
 
         //Adiciona as mensagens da pessoa com quem conversa
@@ -103,7 +150,10 @@ namespace Chat
         {
             //Cria o balão
             Grid gridTexto = new Grid();
+            gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
+            gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
 
+            //Cria uma nova row no gridMensagens
             gridMensagens.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             //Cria o texto que vai no balão
@@ -118,48 +168,53 @@ namespace Chat
             Border border = new Border()
             {
                 Background = new SolidColorBrush(Colors.Bisque),
-                Margin = new Thickness(10, 5, 0, 5),
+                Margin = new Thickness(10, 5, -80, 5),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
                 Child = gridTexto
             };
 
+            //Adiciona a borda no gridMensagens
             gridMensagens.Children.Add(border);
 
-            //Adiciona o texto no balão
+            //Pega o horário atual
+            TextBlock textHorario = new TextBlock()
+            {
+                Text = (string)horario[i],
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                FontSize = 8,
+                Opacity = 0.5
+            };
+
+            //Adiciona o texto e o horário no balão
+            Grid.SetColumn(newTextBlock, 0);
+            Grid.SetColumn(textHorario, 1);
             gridTexto.Children.Add(newTextBlock);
+            gridTexto.Children.Add(textHorario);
 
             //Adiciona o balão na tela
             Grid.SetRow(border, gridMensagens.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
         }
 
+        //Botão enviar
         private void botaoEnviar_Click(object sender, RoutedEventArgs e)
         {
-            remetente.Add(usuario);
-            destinatario.Add(usuario2);
-            conteudo.Add(campoMensagem.Text);
-
-            atualizarChat(remetente.Count - 1);
-
-            //Inverter
-            /*int rowCount = gridMensagens.RowDefinitions.Count;
-            foreach (UIElement element in gridMensagens.Children)
+            if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                int currentRow = Grid.GetRow(element);
-                Grid.SetRow(element, rowCount - 1 - currentRow);
-            }*/
+                remetente.Add(usuario);
+                destinatario.Add(usuario2);
+                conteudo.Add(campoMensagem.Text);
+                horario.Add(DateTime.Now.ToShortTimeString());
 
-            campoMensagem.Clear();
+                atualizarChat(remetente.Count - 1);
+
+                campoMensagem.Clear();
+            }
             campoMensagem.Focus();
-
-            //Adicionar barra de rolagem
-            //Inverter posição de aparição dos balões
-            //Fazer animação do balão aparecendo
-            //Não deixar enviar mensagem em branco
-            //Função de apagar a mensagem
-            //Alterar cor dos balões
         }
 
         //Enviar a mensagem pressionando "Enter"
@@ -169,6 +224,35 @@ namespace Chat
             {
                 botaoEnviar.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
             }
+        }
+
+        //Descer a barra de rolagem quando enviar uma mensagem
+        private void scrollChat_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange != 0)
+            {
+                scrollChat.ScrollToEnd();
+            }
+        }
+
+
+
+
+        //Teste do amigo enviando a mensagem
+        private void botaoEnviar2_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(campoMensagem2.Text)) //Só envia se o campo de mensagem não estiver vazio.
+            {
+                remetente.Add(usuario2);
+                destinatario.Add(usuario);
+                conteudo.Add(campoMensagem2.Text);
+                horario.Add(DateTime.Now.ToShortTimeString());
+
+                atualizarChat2(remetente.Count - 1);
+
+                campoMensagem2.Clear();
+            }
+            campoMensagem2.Focus();
         }
     }
 }
