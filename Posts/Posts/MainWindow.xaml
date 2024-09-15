@@ -1,0 +1,26 @@
+﻿<Window x:Class="Posts.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Posts"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0" Height="400" Width="400" Background="#FFDFDFDF">
+            <ScrollViewer>
+                <Grid x:Name="gridPosts" Margin="0,0,0,0"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid x:Name="gridFormPost" HorizontalAlignment="Left" VerticalAlignment="Center" Height="400" Width="340" Margin="20,0,0,0" Background="Gainsboro">
+            <Button x:Name="botaoPostar" Content="Postar" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="30" Width="100" Margin="0,0,0,20" FontSize="16" Click="botaoPostar_Click" />
+            <TextBox x:Name="campoTitulo" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="0,40,0,0" Height="25" Width="250" TextWrapping="Wrap" TextChanged="campoTitulo_TextChanged"/>
+            <Label x:Name="labelTitulo" Content="Título" HorizontalAlignment="Left" Margin="51,40,0,0" VerticalAlignment="Top" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
+            <TextBox x:Name="campoTexto" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="0,80,0,0" Padding="5,5,5,5" Height="100" Width="250" TextWrapping="Wrap" TextChanged="campoTexto_TextChanged"/>
+            <Label x:Name="labelTexto" Content="Texto" HorizontalAlignment="Left" Margin="51,80,0,0" VerticalAlignment="Top" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
+            <TextBox x:Name="campoMidia" HorizontalAlignment="Center" VerticalAlignment="Top" VerticalContentAlignment="Top" Margin="0,200,0,0" Padding="5,5,5,5" Height="25" Width="250" TextWrapping="Wrap" TextChanged="campoTexto_TextChanged"/>
+            <Label x:Name="labelMidia" Content="URL da foto" HorizontalAlignment="Left" Margin="51,200,0,0" VerticalAlignment="Top" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
+            <Button x:Name="botaoImagem" Content="Selecionar imagem" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,235,0,0" Height="25" Width="250" Click="botaoImagem_Click"/>
+        </Grid>
+    </Grid>
+</Window>
