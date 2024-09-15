@@ -44,5 +44,7 @@
                 </Grid>
             </Grid>
         </Border>
+        <Button x:Name="botaoAmigo2" Content="Gojo" HorizontalAlignment="Left" Margin="400,88,0,0" VerticalAlignment="Top" Height="35" Width="62" Click="botaoAmigo2_Click"/>
+        <Button x:Name="botaoAmigo3" Content="Maria" HorizontalAlignment="Left" Margin="400,145,0,0" VerticalAlignment="Top" Click="botaoAmigo3_Click" Height="35" Width="62"/>
     </Grid>
 </Window>

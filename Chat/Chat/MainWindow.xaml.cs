@@ -22,25 +22,21 @@ namespace Chat
     /// Interação lógica para MainWindow.xam
     /// </summary>
 
-    //Fazer animação do balão aparecendo
     //Função de apagar a mensagem
     //Colocar a data da mensagem
     //Desativar o botão enviar quando o campo de mensagem estiver vazia
-    //Criar um dicionário para armazenar as informações
     //Aumentar tamanho do campo quando passar pra linha de baixo
     //Ajustar a largura máxima do balão
     //Colocar foto e nome com quem fala
     //Personalizar a barra de rolagem (cor e arredondamento)
     //Mudar a cor do campo onde digita
-    //Mudar o botão de enviar
+    //Mudar a aparência do botão de enviar
+    //Criar uma lista de amigos
+    //Permitir selecionar o amigo com quem quer conversar
 
     public partial class MainWindow : Window
     {
-        ArrayList remetente = new ArrayList(); //Código do usuário que enviou
-        ArrayList destinatario = new ArrayList(); //Código do usuário que recebeu
-        ArrayList conteudo = new ArrayList(); //Conteúdo da mensagem
-        ArrayList horario = new ArrayList(); //Horário da mensagem
-        ArrayList data = new ArrayList(); //Data da mensagem
+        private ChatMensagensManager chatMensagensManager = new ChatMensagensManager();
 
         int usuario;
         int usuario2;
@@ -52,38 +48,31 @@ namespace Chat
             //Atribuições de teste
             usuario = 1; //Código do usuário logado
             usuario2 = 2; //Código do usuário com quem está falando
-            remetente.Add(1);
-            destinatario.Add(2);
-            conteudo.Add("Oi");
-            horario.Add("20:22");
-            remetente.Add(2);
-            destinatario.Add(1);
-            conteudo.Add("Vamos comer?");
-            horario.Add("20:25");
-            remetente.Add(1);
-            destinatario.Add(2);
-            conteudo.Add("Vamos");
-            horario.Add("20:30");
-            remetente.Add(3);
-            destinatario.Add(1);
-            conteudo.Add("Elefante");
-            horario.Add("06:45");
+            chatMensagensManager.ArmazenarMensagem(1, 2, "Oi", "20:22");
+            chatMensagensManager.ArmazenarMensagem(2, 1, "Vamos comer?", "20:25");
+            chatMensagensManager.ArmazenarMensagem(1, 2, "Vamos", "20:30");
+            chatMensagensManager.ArmazenarMensagem(3, 1, "Elefante", "06:45");
 
-            for (int i = 0; i < remetente.Count; i++)
+            buscarHistorico();
+        }
+
+        public void buscarHistorico()
+        {
+            for (int i = 0; i < chatMensagensManager.BuscarQuantidade(); i++)
             {
-                if ((int)remetente[i] == usuario && (int)destinatario[i] == usuario2)
+                if (chatMensagensManager.BuscarMensagemRemetente(i, usuario, usuario2))
                 {
-                    atualizarChat(i);
+                    atualizarChatRemetente(i);
                 }
-                else if ((int)destinatario[i] == usuario && (int)remetente[i] == usuario2)
+                else if (chatMensagensManager.BuscarMensagemDestinatario(i, usuario, usuario2))
                 {
-                    atualizarChat2(i);
+                    atualizarChatDestinatario(i);
                 }
             }
         }
 
         //Adiciona as mensagens do usuario atual
-        public void atualizarChat(int i)
+        public void atualizarChatRemetente(int i)
         {
             //Cria o balão
             Grid gridTexto = new Grid();
@@ -97,7 +86,7 @@ namespace Chat
             //Cria o texto que vai no balão
             TextBlock newTextBlock = new TextBlock()
             {
-                Text = (string)conteudo[i],
+                Text = chatMensagensManager.BuscarConteudo(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
             };
@@ -119,7 +108,7 @@ namespace Chat
             //Pega o horário atual
             TextBlock textHorario = new TextBlock()
             {
-                Text = (string)horario[i],
+                Text = chatMensagensManager.BuscarHorario(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -136,17 +125,10 @@ namespace Chat
             //Adiciona o balão na tela
             Grid.SetRow(border, gridMensagens.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
-
-            //Animação
-            /*DoubleAnimation sizeAnimation = new DoubleAnimation();
-            sizeAnimation.From = 0;
-            sizeAnimation.To = border.ActualWidth;
-            sizeAnimation.Duration = new Duration(TimeSpan.FromSeconds(0.05));
-            border.BeginAnimation(Border.WidthProperty, sizeAnimation);*/
         }
 
         //Adiciona as mensagens da pessoa com quem conversa
-        public void atualizarChat2(int i)
+        public void atualizarChatDestinatario(int i)
         {
             //Cria o balão
             Grid gridTexto = new Grid();
@@ -159,7 +141,7 @@ namespace Chat
             //Cria o texto que vai no balão
             TextBlock newTextBlock = new TextBlock()
             {
-                Text = (string)conteudo[i],
+                Text = chatMensagensManager.BuscarConteudo(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
             };
@@ -181,7 +163,7 @@ namespace Chat
             //Pega o horário atual
             TextBlock textHorario = new TextBlock()
             {
-                Text = (string)horario[i],
+                Text = chatMensagensManager.BuscarHorario(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -205,12 +187,9 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                remetente.Add(usuario);
-                destinatario.Add(usuario2);
-                conteudo.Add(campoMensagem.Text);
-                horario.Add(DateTime.Now.ToShortTimeString());
+                chatMensagensManager.ArmazenarMensagem(usuario, usuario2, campoMensagem.Text, DateTime.Now.ToShortTimeString());
 
-                atualizarChat(remetente.Count - 1);
+                atualizarChatRemetente(chatMensagensManager.BuscarQuantidade() - 1);
 
                 campoMensagem.Clear();
             }
@@ -235,7 +214,23 @@ namespace Chat
             }
         }
 
+        private void botaoAmigo3_Click(object sender, RoutedEventArgs e)
+        {
+            usuario2 = 3;
 
+            gridMensagens.Children.Clear();
+
+            buscarHistorico();
+        }
+
+        private void botaoAmigo2_Click(object sender, RoutedEventArgs e)
+        {
+            usuario2 = 2;
+
+            gridMensagens.Children.Clear();
+
+            buscarHistorico();
+        }
 
 
         //Teste do amigo enviando a mensagem
@@ -243,12 +238,9 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem2.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                remetente.Add(usuario2);
-                destinatario.Add(usuario);
-                conteudo.Add(campoMensagem2.Text);
-                horario.Add(DateTime.Now.ToShortTimeString());
+                chatMensagensManager.ArmazenarMensagem(usuario2, usuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
 
-                atualizarChat2(remetente.Count - 1);
+                atualizarChatDestinatario(chatMensagensManager.BuscarQuantidade() - 1);
 
                 campoMensagem2.Clear();
             }
