@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Posts
         public string Titulo { get; set; }
         public string Texto { get; set; }
         public string Midia { get; set; }
+        public ArrayList Like { get; set; } = new ArrayList();
     }
 
     public class PostManager
@@ -58,6 +60,30 @@ namespace Posts
         public int BuscarQuantidade()
         {
             return posts.Count;
+        }
+
+        public void AdicionarLike(int i, int codUsuario)
+        {
+            posts[i].Like.Add(codUsuario);
+        }
+
+        public void RemoverLike(int i, int codUsuario)
+        {
+            posts[i].Like.Remove(codUsuario);
+        }
+
+        public int buscarQuantidadeLike(int i)
+        {
+            return posts[i].Like.Count;
+        }
+
+        public Boolean verificarUsuarioLike(int i, int codUsuario) //Verifica se o usuário logado já deu like ou não
+        {
+            if (posts[i].Like.Contains(codUsuario))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
