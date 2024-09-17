@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Posts"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="MainWindow" Height="720" Width="1280"
+        WindowStartupLocation="CenterScreen">
     <Grid>
         <ScrollViewer Background="#FFEEEEEE">
             <StackPanel>
@@ -16,12 +17,19 @@
                     </Grid.RowDefinitions>
                     <Border Background="#FFFFFFFF" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid x:Name="gridFormPost" Grid.Row="0">
-                            <TextBox x:Name="campoTitulo" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10,10,10,0" Height="25" TextWrapping="Wrap" TextChanged="campoTitulo_TextChanged"/>
-                            <Label x:Name="labelTitulo" Content="Título" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
-                            <TextBox x:Name="campoTexto" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Margin="10,40,10,0" Padding="5,5,5,5" Height="50" TextWrapping="Wrap" TextChanged="campoTexto_TextChanged"/>
-                            <Label x:Name="labelTexto" Content="Texto" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,40,0,0" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
-                            <Button x:Name="botaoImagem" Content="Selecionar imagem" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="10,95,10,0" Height="25" Click="botaoImagem_Click" Background="White"/>
-                            <Button x:Name="botaoPostar" Content="Postar" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="30" Margin="10,130,10,10" FontSize="16" Click="botaoPostar_Click" Background="White" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height = "*"/>
+                                <RowDefinition Height = "*"/>
+                                <RowDefinition Height = "*"/>
+                                <RowDefinition Height = "*"/>
+                                <RowDefinition Height = "*"/>
+                            </Grid.RowDefinitions>
+                            <TextBox x:Name="campoTitulo" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="10,10,10,0" Height="25" TextWrapping="Wrap" TextChanged="campoTitulo_TextChanged"/>
+                            <Label x:Name="labelTitulo" Grid.Row="0" Content="Título" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Center" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
+                            <TextBox x:Name="campoTexto" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Margin="10,10,10,0" Padding="5,5,5,5" Height="50" TextWrapping="Wrap" TextChanged="campoTexto_TextChanged"/>
+                            <Label x:Name="labelTexto" Grid.Row="1" Content="Texto" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" Foreground="#66000000" IsHitTestVisible="False" Height="25"/>
+                            <Button x:Name="botaoImagem" Grid.Row="3" Content="Selecionar imagem" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10,10,10,0" Height="25" Click="botaoImagem_Click" Background="White"/>
+                            <Button x:Name="botaoPostar" Grid.Row="4" Content="Postar" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" Margin="10,10,10,10" FontSize="16" Click="botaoPostar_Click" Background="White" />
                         </Grid>
                     </Border>
                     <Grid x:Name="gridPosts" Grid.Row="1"/>

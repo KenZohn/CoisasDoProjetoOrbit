@@ -22,9 +22,8 @@ namespace Posts
     /// </summary>
 
     //Ajustar posição dos botões de like e recomendar
-    //Mensagem de campo não preenchido
+    //Mensagem alerta de campo não preenchido
     //Ajustar o tamanho da imagem para caber no post
-    //Mostrar foto selecionada
     public partial class MainWindow : Window
     {
         private PostManager postManager = new PostManager();
@@ -78,16 +77,15 @@ namespace Posts
             gridQtdLCR.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de Recomendações
 
             //Cria o balão
-            Grid gridTexto = new Grid();
-            gridTexto.RowDefinitions.Add(new RowDefinition());//Título
-            gridTexto.RowDefinitions.Add(new RowDefinition());//Texto
-            gridTexto.RowDefinitions.Add(new RowDefinition());//Mídia
-            gridTexto.RowDefinitions.Add(new RowDefinition());//Quantidade de Likes, comentários e recomendações
-            gridTexto.RowDefinitions.Add(new RowDefinition());//Botão Curtir, Comentar e Recomendar
+            Grid gridUmPost = new Grid();
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Título
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Texto
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Mídia
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Quantidade de Likes, comentários e recomendações
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Botão Curtir, Comentar e Recomendar
 
             //Cria uma nova row no gridMensagens
             gridPosts.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-            //gridPosts.RowDefinitions.Insert(0, new RowDefinition() { Height = GridLength.Auto });
 
             //Cria o texto que vai no balão
             TextBlock newTitulo = new TextBlock()
@@ -160,23 +158,23 @@ namespace Posts
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                Child = gridTexto
+                Child = gridUmPost
             };
 
             //Adiciona a borda no gridMensagens
             gridPosts.Children.Add(border);
 
-            //Adiciona o texto e o horário no balão
+            //Adiciona o texto no balão
             Grid.SetRow(newTitulo, 0);
             Grid.SetRow(newTexto, 1);
             Grid.SetRow(newMidia, 2);
             Grid.SetRow(gridQtdLCR, 3);
             Grid.SetRow(gridBotoes, 4);
-            gridTexto.Children.Add(newTitulo);
-            gridTexto.Children.Add(newTexto);
-            gridTexto.Children.Add(newMidia);
-            gridTexto.Children.Add(gridQtdLCR);
-            gridTexto.Children.Add(gridBotoes);
+            gridUmPost.Children.Add(newTitulo);
+            gridUmPost.Children.Add(newTexto);
+            gridUmPost.Children.Add(newMidia);
+            gridUmPost.Children.Add(gridQtdLCR);
+            gridUmPost.Children.Add(gridBotoes);
 
             //Adiciona a quantidade de likes, comentários e recomendações na gridQtdLCR
             Grid.SetColumn(newLikes, 0);
@@ -255,17 +253,20 @@ namespace Posts
         //Botão para postar o post
         private void botaoPostar_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(campoTexto.Text))
+            if (String.IsNullOrEmpty(campoTexto.Text) && enderecoMidia == "")
+            {
+                MessageBox.Show("Escreva algum texto ou selecione uma imagem.");
+            }
+            else
             {
                 postManager.ArmazenarPost(1, campoTitulo.Text, campoTexto.Text, enderecoMidia);
 
                 campoTitulo.Clear();
                 campoTexto.Clear();
                 enderecoMidia = "";
-            }
-            else
-            {
-                MessageBox.Show("Preencha o campo Texto");
+
+                removerPrevia(); //Remove a prévia da foto após postar
+                botaoImagem.Content = "Selecionar imagem";
             }
 
             atualizarPaginaPost();
@@ -274,14 +275,54 @@ namespace Posts
         //Permite selecionar uma foto para a postagem
         private void botaoImagem_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
-
-            if (openFileDialog.ShowDialog() == true)
+            if (enderecoMidia == "")
             {
-                BitmapImage bitmap = new BitmapImage(new Uri(openFileDialog.FileName));
-                enderecoMidia = openFileDialog.FileName;
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+
+                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+
+                if (openFileDialog.ShowDialog() == true)
+                {
+                    enderecoMidia = openFileDialog.FileName;
+                    previaFoto();
+                    botaoImagem.Content = "Remover imagem";
+                }
+            }
+            else
+            {
+                enderecoMidia = "";
+                removerPrevia();
+                botaoImagem.Content = "Selecionar imagem";
+            }
+        }
+
+        //Mostra uma prévia da foto selecionada
+        private void previaFoto()
+        {
+            BitmapImage minhaBitmapImage = new BitmapImage();
+            minhaBitmapImage.BeginInit();
+            minhaBitmapImage.UriSource = new Uri(enderecoMidia, UriKind.RelativeOrAbsolute);
+            minhaBitmapImage.EndInit();
+
+            Image newMidia = new Image()
+            {
+                Source = minhaBitmapImage,
+                MaxHeight = 150,
+                MaxWidth = 150,
+                Margin = new Thickness(0, 10, 0, 0)
+            };
+
+            Grid.SetRow(newMidia, 2);
+            gridFormPost.Children.Add(newMidia);
+        }
+
+        //Remove a prévia da foto
+        private void removerPrevia()
+        {
+            var elementsInRow = gridFormPost.Children.Cast<UIElement>().Where(n => Grid.GetRow(n) == 2).ToList();
+            foreach (var element in elementsInRow)
+            {
+                gridFormPost.Children.Remove(element);
             }
         }
     }

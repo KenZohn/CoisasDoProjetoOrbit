@@ -14,6 +14,7 @@ namespace Posts
         public string Texto { get; set; }
         public string Midia { get; set; }
         public ArrayList Like { get; set; } = new ArrayList();
+        public Dictionary<int, string> Comentario { get; set; } = new Dictionary<int, string>();
     }
 
     public class PostManager
