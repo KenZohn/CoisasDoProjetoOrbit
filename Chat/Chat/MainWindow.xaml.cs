@@ -37,34 +37,48 @@ namespace Chat
     public partial class MainWindow : Window
     {
         private ChatMensagensManager chatMensagensManager = new ChatMensagensManager();
+        private PerfilManager perfilManager = new PerfilManager();
 
-        int usuario;
-        int usuario2;
+        int codUsuario;
+        int codUsuarioAmigo;
 
         public MainWindow()
         {
             InitializeComponent();
 
             //Atribuições de teste
-            usuario = 1; //Código do usuário logado
-            usuario2 = 2; //Código do usuário com quem está falando
-            chatMensagensManager.ArmazenarMensagem(1, 2, "Oi", "20:22");
-            chatMensagensManager.ArmazenarMensagem(2, 1, "Vamos comer?", "20:25");
-            chatMensagensManager.ArmazenarMensagem(1, 2, "Vamos", "20:30");
-            chatMensagensManager.ArmazenarMensagem(3, 1, "Elefante", "06:45");
+            codUsuario = 0; //Código do usuário logado
+            codUsuarioAmigo = 2;
+            chatMensagensManager.ArmazenarMensagem(0, 1, "Oi", "20:22");
+            chatMensagensManager.ArmazenarMensagem(1, 0, "Vamos comer?", "20:25");
+            chatMensagensManager.ArmazenarMensagem(0, 1, "Vamos", "20:30");
+            chatMensagensManager.ArmazenarMensagem(2, 0, "Elefante", "06:45");
+
+            perfilManager.ArmazenarPerfil(0, "Johnny", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Gojo.png");
+            perfilManager.ArmazenarPerfil(1, "Gojo", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Gojo.png");
+            perfilManager.ArmazenarPerfil(2, "Roger", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Roger.png");
+
+            perfilManager.AdicionarAmigo(0, 1);
+            perfilManager.AdicionarAmigo(0, 2);
 
             buscarHistorico();
+
+            for (int i = 0; i < perfilManager.BuscarQuantidadeAmigos(codUsuario); i++)
+            {
+                codUsuarioAmigo = perfilManager.BuscarCodAmigo(codUsuario, i);
+                listarAmigos(codUsuarioAmigo);
+            }
         }
 
         public void buscarHistorico()
         {
             for (int i = 0; i < chatMensagensManager.BuscarQuantidade(); i++)
             {
-                if (chatMensagensManager.BuscarMensagemRemetente(i, usuario, usuario2))
+                if (chatMensagensManager.VerificarMensagemRemetente(i, codUsuario, codUsuarioAmigo))
                 {
                     atualizarChatRemetente(i);
                 }
-                else if (chatMensagensManager.BuscarMensagemDestinatario(i, usuario, usuario2))
+                else if (chatMensagensManager.VerificarMensagemDestinatario(i, codUsuario, codUsuarioAmigo))
                 {
                     atualizarChatDestinatario(i);
                 }
@@ -78,7 +92,6 @@ namespace Chat
             Grid gridTexto = new Grid();
             gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
             gridTexto.ColumnDefinitions.Add(new ColumnDefinition());
-
 
             //Cria uma nova row no gridMensagens
             gridMensagens.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -187,7 +200,7 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                chatMensagensManager.ArmazenarMensagem(usuario, usuario2, campoMensagem.Text, DateTime.Now.ToShortTimeString());
+                chatMensagensManager.ArmazenarMensagem(codUsuario, codUsuarioAmigo, campoMensagem.Text, DateTime.Now.ToShortTimeString());
 
                 atualizarChatRemetente(chatMensagensManager.BuscarQuantidade() - 1);
 
@@ -216,7 +229,7 @@ namespace Chat
 
         private void botaoAmigo3_Click(object sender, RoutedEventArgs e)
         {
-            usuario2 = 3;
+            codUsuarioAmigo = 3;
 
             gridMensagens.Children.Clear();
 
@@ -225,7 +238,7 @@ namespace Chat
 
         private void botaoAmigo2_Click(object sender, RoutedEventArgs e)
         {
-            usuario2 = 2;
+            codUsuarioAmigo = 2;
 
             gridMensagens.Children.Clear();
 
@@ -238,13 +251,72 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem2.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                chatMensagensManager.ArmazenarMensagem(usuario2, usuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
+                chatMensagensManager.ArmazenarMensagem(codUsuarioAmigo, codUsuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
 
                 atualizarChatDestinatario(chatMensagensManager.BuscarQuantidade() - 1);
 
                 campoMensagem2.Clear();
             }
             campoMensagem2.Focus();
+        }
+
+        //Listar amigos
+        private void listarAmigos(int codAmigo)
+        {
+            //Grid para listar o amigo
+            Grid gridUsuarioAmigo = new Grid();
+            gridUsuarioAmigo.ColumnDefinitions.Add(new ColumnDefinition());
+            gridUsuarioAmigo.ColumnDefinitions.Add(new ColumnDefinition());
+
+            //Cria uma nova row
+            gridAmigos.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            //Cria o texto para o nome do amigo
+            TextBlock newAmigoNome = new TextBlock()
+            {
+                Text = perfilManager.BuscarNome(codAmigo),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(5)
+            };
+
+            //Cria a borda arredondada
+            Border border = new Border()
+            {
+                Background = new SolidColorBrush(Colors.White),
+                Margin = new Thickness(5, 10, 5, 0),
+                CornerRadius = new CornerRadius(5),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                Child = gridUsuarioAmigo
+            };
+
+            ImageBrush imageBrush = new ImageBrush();
+            BitmapImage bitmapImage = new BitmapImage(new Uri(perfilManager.BuscarFoto(codAmigo), UriKind.Relative));
+            imageBrush.ImageSource = bitmapImage;
+
+            Ellipse newAmigoFoto = new Ellipse()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Height = 60,
+                Width = 60,
+                Fill = imageBrush
+            };
+
+            //Adiciona a borda no gridMensagens
+            gridAmigos.Children.Add(border);
+
+            //Adiciona o texto e o horário no balão
+            Grid.SetColumn(newAmigoFoto, 0);
+            Grid.SetColumn(newAmigoNome, 1);
+            gridUsuarioAmigo.Children.Add(newAmigoFoto);
+            gridUsuarioAmigo.Children.Add(newAmigoNome);
+
+            //Adiciona o balão na tela
+            Grid.SetRow(border, gridAmigos.RowDefinitions.Count - 1);
+            Grid.SetColumn(border, 0);
         }
     }
 }
