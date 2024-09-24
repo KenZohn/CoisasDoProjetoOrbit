@@ -13,10 +13,21 @@
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,20,0,20" Width="600">
                     <Grid.RowDefinitions>
                         <RowDefinition Height = "*"/>
-                        <RowDefinition Height = "Auto"/>
+                        <RowDefinition Height = "*"/>
+                        <RowDefinition Height = "*"/>
                     </Grid.RowDefinitions>
-                    <Border Background="#FFFFFFFF" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid x:Name="gridFormPost" Grid.Row="0">
+                    <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="botaoPostProprio" Grid.Column="0" Content="Próprio" Height="30" Background="#FFFFFFFF" Click="botaoPostProprio_Click"/>
+                        <Button x:Name="botaoPostAmigos" Grid.Column="1" Content="Amigos" Height="30" Background="#FFFFFFFF"/>
+                        <Button x:Name="botaoPostGeral" Grid.Column="2" Content="Geral" Height="30" Background="#FFFFFFFF" Click="botaoPostGeral_Click"/>
+                    </Grid>
+                    <Border Grid.Row="1" Background="#FFFFFFFF" CornerRadius="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid x:Name="gridFormPost">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height = "*"/>
                                 <RowDefinition Height = "*"/>
@@ -32,7 +43,7 @@
                             <Button x:Name="botaoPostar" Grid.Row="4" Content="Postar" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="30" Margin="10,10,10,10" FontSize="16" Click="botaoPostar_Click" Background="White" />
                         </Grid>
                     </Border>
-                    <Grid x:Name="gridPosts" Grid.Row="1"/>
+                    <Grid x:Name="gridPosts" Grid.Row="2"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>

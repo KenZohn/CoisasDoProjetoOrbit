@@ -21,34 +21,45 @@ namespace Posts
     /// Interação lógica para MainWindow.xam
     /// </summary>
 
-    //Ajustar posição dos botões de like e recomendar
-    //Mensagem alerta de campo não preenchido
-    //Ajustar o tamanho da imagem para caber no post
+    //Adicionar armazenamento de data e horário
     public partial class MainWindow : Window
     {
         private PostManager postManager = new PostManager();
+        private UsuarioManager usuarioManager = new UsuarioManager();
 
         int codUsuario;
         string enderecoMidia;
+        string exibicaoPost;
         public MainWindow()
         {
             InitializeComponent();
 
             //Atribuições para teste
-            codUsuario = 1;
+            usuarioManager.ArmazenarUsuario(0, "Johnny", "");
+            usuarioManager.ArmazenarUsuario(1, "Gojo", "");
+            usuarioManager.ArmazenarUsuario(2, "Maria", "");
+            usuarioManager.ArmazenarUsuario(3, "Luigi", "");
+
+            codUsuario = 0;
             enderecoMidia = "";
-            postManager.ArmazenarPost(1, "Pudim", "Fiz um pudim muito bom!", "");
-            postManager.ArmazenarPost(1, "Elefante", "Olha esse elefante gigante", "");
+            postManager.ArmazenarPost(0, "Pudim", "Fiz um pudim muito bom!", "");
+            postManager.ArmazenarPost(0, "Elefante", "Olha esse elefante gigante", "");
+            postManager.ArmazenarPost(1, "Como correr", "Leve uma perna para frente e em seguida a perna oposta. Repita o processo.", "");
+            postManager.ArmazenarPost(1, "Joinha", "Deixa o Like!", "");
             postManager.AdicionarLike(0, 2);
             postManager.AdicionarLike(0, 3);
             postManager.AdicionarLike(0, 4);
             postManager.AdicionarLike(1, 4);
 
-            atualizarPaginaPost();
+            exibicaoPost = "proprio";
+
+            atualizarPaginaPostProprio();
+
+            botaoPostProprio.Background = Brushes.Gray;
         }
 
-        //Coloca todos os posts do usuário na página
-        public void atualizarPaginaPost()
+        //Coloca todos os posts do próprio usuário na página
+        public void atualizarPaginaPostProprio()
         {
             gridPosts.Children.Clear();
 
@@ -58,6 +69,17 @@ namespace Posts
                 {
                     publicarPost(i);
                 }
+            }
+        }
+
+        //Coloca todos os posts de todos na página
+        public void atualizarPaginaPostGeral()
+        {
+            gridPosts.Children.Clear();
+
+            for (int i = postManager.BuscarQuantidade() - 1; i >= 0; i--)
+            {
+                publicarPost(i);
             }
         }
 
@@ -78,6 +100,7 @@ namespace Posts
 
             //Cria o balão
             Grid gridUmPost = new Grid();
+            gridUmPost.RowDefinitions.Add(new RowDefinition());//Autor do post
             gridUmPost.RowDefinitions.Add(new RowDefinition());//Título
             gridUmPost.RowDefinitions.Add(new RowDefinition());//Texto
             gridUmPost.RowDefinitions.Add(new RowDefinition());//Mídia
@@ -87,7 +110,15 @@ namespace Posts
             //Cria uma nova row no gridMensagens
             gridPosts.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            //Cria o texto que vai no balão
+            //Cria o texto do nome do Autor
+            TextBlock newAutor = new TextBlock()
+            {
+                Text = usuarioManager.BuscarNome(postManager.BuscarRemetente(i)),
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(5)
+            };
+
+            //Cria o texto do título
             TextBlock newTitulo = new TextBlock()
             {
                 Text = postManager.BuscarTitulo(i),
@@ -95,6 +126,7 @@ namespace Posts
                 Margin = new Thickness(5)
             };
 
+            //Cria o texto do conteúdo
             TextBlock newTexto = new TextBlock()
             {
                 Text = postManager.BuscarTexto(i),
@@ -107,6 +139,7 @@ namespace Posts
             minhaBitmapImage.UriSource = new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute);
             minhaBitmapImage.EndInit();
 
+            //Cria a foto
             Image newMidia = new Image()
             {
                 Source = minhaBitmapImage,
@@ -114,6 +147,7 @@ namespace Posts
                 MaxWidth = 150
             };
 
+            //Cria o texto de quantidade de likes
             TextBlock newLikes = new TextBlock() //Número de likes
             {
                 Text = postManager.buscarQuantidadeLike(i).ToString(),
@@ -121,6 +155,7 @@ namespace Posts
                 Margin = new Thickness(5)
             };
 
+            //Cria o botão Curti
             Button botaoCurtir = new Button()
             {
                 Content = "Curtir",
@@ -130,8 +165,10 @@ namespace Posts
                 Background = new SolidColorBrush(Colors.White)
             };
 
+            //Função de curtir
             botaoCurtir.Click += (sender, e) => BotaoCurtir_Click(sender, e, i, botaoCurtir, newLikes);
 
+            //Cria o botão comentar
             Button botaoComentar = new Button()
             {
                 Content = "Comentar",
@@ -141,6 +178,7 @@ namespace Posts
                 Background = new SolidColorBrush(Colors.White)
             };
 
+            //Cria o botão recomendar
             Button botaoRecomendar = new Button()
             {
                 Content = "Recomendar",
@@ -165,11 +203,13 @@ namespace Posts
             gridPosts.Children.Add(border);
 
             //Adiciona o texto no balão
-            Grid.SetRow(newTitulo, 0);
-            Grid.SetRow(newTexto, 1);
-            Grid.SetRow(newMidia, 2);
-            Grid.SetRow(gridQtdLCR, 3);
-            Grid.SetRow(gridBotoes, 4);
+            Grid.SetRow(newAutor, 0);
+            Grid.SetRow(newTitulo, 1);
+            Grid.SetRow(newTexto, 2);
+            Grid.SetRow(newMidia, 3);
+            Grid.SetRow(gridQtdLCR, 4);
+            Grid.SetRow(gridBotoes, 5);
+            gridUmPost.Children.Add(newAutor);
             gridUmPost.Children.Add(newTitulo);
             gridUmPost.Children.Add(newTexto);
             gridUmPost.Children.Add(newMidia);
@@ -192,6 +232,7 @@ namespace Posts
             Grid.SetRow(border, gridPosts.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
 
+            //Altera a cor do botão do like
             alterarCorBotaoLike(i, botaoCurtir);
         }
 
@@ -259,7 +300,7 @@ namespace Posts
             }
             else
             {
-                postManager.ArmazenarPost(1, campoTitulo.Text, campoTexto.Text, enderecoMidia);
+                postManager.ArmazenarPost(codUsuario, campoTitulo.Text, campoTexto.Text, enderecoMidia);
 
                 campoTitulo.Clear();
                 campoTexto.Clear();
@@ -269,7 +310,14 @@ namespace Posts
                 botaoImagem.Content = "Selecionar imagem";
             }
 
-            atualizarPaginaPost();
+            if (exibicaoPost == "proprio")
+            {
+                atualizarPaginaPostProprio();
+            }
+            else if (exibicaoPost == "geral")
+            {
+                atualizarPaginaPostGeral();
+            }
         }
 
         //Permite selecionar uma foto para a postagem
@@ -324,6 +372,26 @@ namespace Posts
             {
                 gridFormPost.Children.Remove(element);
             }
+        }
+
+        //Mostrar postagens próprias
+        private void botaoPostProprio_Click(object sender, RoutedEventArgs e)
+        {
+            atualizarPaginaPostProprio();
+            exibicaoPost = "proprio";
+
+            botaoPostProprio.Background = Brushes.Gray;
+            botaoPostGeral.Background = Brushes.White;
+        }
+
+        //Mostrar postagens de todos
+        private void botaoPostGeral_Click(object sender, RoutedEventArgs e)
+        {
+            atualizarPaginaPostGeral();
+            exibicaoPost = "geral";
+
+            botaoPostProprio.Background = Brushes.White;
+            botaoPostGeral.Background = Brushes.Gray;
         }
     }
 }

@@ -13,6 +13,8 @@ namespace Posts
         public string Titulo { get; set; }
         public string Texto { get; set; }
         public string Midia { get; set; }
+        public string Data { get; set; }
+        public string Horario { get; set; }
         public ArrayList Like { get; set; } = new ArrayList();
         public Dictionary<int, string> Comentario { get; set; } = new Dictionary<int, string>();
     }
@@ -41,6 +43,11 @@ namespace Posts
                 return true;
             }
             return false;
+        }
+
+        public int BuscarRemetente(int i)
+        {
+            return posts[i].Remetente;
         }
 
         public string BuscarTitulo(int i)
