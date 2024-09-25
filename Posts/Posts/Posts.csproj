@@ -100,5 +100,17 @@
     <Resource Include="Imagens\Comentário.png" />
     <Resource Include="Imagens\Like.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\Gojo.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\Jennifer.jpeg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\Luigi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\Pukki.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

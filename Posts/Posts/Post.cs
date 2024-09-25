@@ -14,7 +14,6 @@ namespace Posts
         public string Texto { get; set; }
         public string Midia { get; set; }
         public string Data { get; set; }
-        public string Horario { get; set; }
         public ArrayList Like { get; set; } = new ArrayList();
         public Dictionary<int, string> Comentario { get; set; } = new Dictionary<int, string>();
     }
@@ -23,14 +22,15 @@ namespace Posts
     {
         private static List<Post> posts = new List<Post>();
 
-        public void ArmazenarPost(int remetente, string titulo, string texto, string midia)
+        public void ArmazenarPost(int remetente, string titulo, string texto, string midia, string data)
         {
             Post novoPost = new Post()
             {
                 Remetente = remetente,
                 Titulo = titulo,
                 Texto = texto,
-                Midia = midia
+                Midia = midia,
+                Data = data
             };
 
             posts.Add(novoPost);
@@ -63,6 +63,11 @@ namespace Posts
         public string BuscarMidia(int i)
         {
             return posts[i].Midia;
+        }
+
+        public string BuscarData(int i)
+        {
+            return posts[i].Data;
         }
 
         public int BuscarQuantidade()

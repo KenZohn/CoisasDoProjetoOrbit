@@ -35,17 +35,20 @@ namespace Posts
             InitializeComponent();
 
             //Atribuições para teste
-            usuarioManager.ArmazenarUsuario(0, "Johnny", "");
-            usuarioManager.ArmazenarUsuario(1, "Gojo", "");
-            usuarioManager.ArmazenarUsuario(2, "Maria", "");
-            usuarioManager.ArmazenarUsuario(3, "Luigi", "");
+            //Precisa alterar o caminho das fotos para rodar    VVVVVVVV
+            usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Pukki.jpg");
+            usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Gojo.jpg");
+            usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Jennifer.jpeg");
+            usuarioManager.ArmazenarUsuario(3, "Luigi", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Luigi.png");
 
             codUsuario = 0;
             enderecoMidia = "";
-            postManager.ArmazenarPost(0, "Pudim", "Fiz um pudim muito bom!", "");
-            postManager.ArmazenarPost(0, "Elefante", "Olha esse elefante gigante", "");
-            postManager.ArmazenarPost(1, "Como correr", "Leve uma perna para frente e em seguida a perna oposta. Repita o processo.", "");
-            postManager.ArmazenarPost(1, "Joinha", "Deixa o Like!", "");
+            postManager.ArmazenarPost(0, "Pudim", "Fiz um pudim muito bom!", "", "22/09/2024 10:10");
+            postManager.ArmazenarPost(0, "Elefante", "Olha esse elefante gigante", "", "22/09/2024 11:13");
+            postManager.ArmazenarPost(1, "Como correr", "Leve uma perna para frente e em seguida a perna oposta. Repita o processo.", "", "23/09/2024 09:54");
+            postManager.ArmazenarPost(1, "Joinha", "Deixa o Like!", "", "23/09/2024 15:33");
+            postManager.ArmazenarPost(3, "", "Que Mario?", "", "23/09/2024 19:27");
+            postManager.ArmazenarPost(2, "Novo filme!", "Se preparem para um novo filme", "", "24/09/2024 01:11");
             postManager.AdicionarLike(0, 2);
             postManager.AdicionarLike(0, 3);
             postManager.AdicionarLike(0, 4);
@@ -86,6 +89,13 @@ namespace Posts
         //Insere o post na página
         public void publicarPost(int i)
         {
+            //Cria a grid do autor
+            Grid gridAutor = new Grid();
+            gridAutor.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            gridAutor.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+
             //Colunas para os botões Curtir, Comentar e Recomendar
             Grid gridBotoes = new Grid();
             gridBotoes.ColumnDefinitions.Add(new ColumnDefinition());//Botão curtir
@@ -99,63 +109,93 @@ namespace Posts
             gridQtdLCR.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de Recomendações
 
             //Cria o balão
-            Grid gridUmPost = new Grid();
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Autor do post
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Título
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Texto
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Mídia
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Quantidade de Likes, comentários e recomendações
-            gridUmPost.RowDefinitions.Add(new RowDefinition());//Botão Curtir, Comentar e Recomendar
+            Grid gridPostCorpo = new Grid();
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Autor do post
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Título
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Texto
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Mídia
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Quantidade de Likes, comentários e recomendações
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Botão Curtir, Comentar e Recomendar
 
             //Cria uma nova row no gridMensagens
             gridPosts.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            //Cria o texto do nome do Autor
-            TextBlock newAutor = new TextBlock()
+            //Cria a foto do autor
+            ImageBrush imageBrush = new ImageBrush();
+            BitmapImage bitmapImage = new BitmapImage(new Uri(usuarioManager.BuscarFoto(postManager.BuscarRemetente(i)), UriKind.Relative));
+            imageBrush.ImageSource = bitmapImage;
+
+            Ellipse newAutorFoto = new Ellipse()
             {
-                Text = usuarioManager.BuscarNome(postManager.BuscarRemetente(i)),
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5)
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                Height = 45,
+                Width = 45,
+                Stroke = Brushes.DarkGray,
+                Margin = new Thickness(10),
+                Fill = imageBrush
             };
 
-            //Cria o texto do título
+            //Cria o nome do autor
+            TextBlock newAutorNome = new TextBlock()
+            {
+                Text = usuarioManager.BuscarNome(postManager.BuscarRemetente(i)),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(5, 15, 0, 0)
+            };
+
+            //Cria a data e horário
+            TextBlock newDataHora = new TextBlock()
+            {
+                Text = postManager.BuscarData(i),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(5, -10, 0, 0)
+            };
+
+            //Cria o título
             TextBlock newTitulo = new TextBlock()
             {
                 Text = postManager.BuscarTitulo(i),
                 TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5)
+                FontSize = 16,
+                Margin = new Thickness(15, 5, 15, 5)
             };
 
-            //Cria o texto do conteúdo
+            //Cria o texto
             TextBlock newTexto = new TextBlock()
             {
                 Text = postManager.BuscarTexto(i),
                 TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5)
+                FontSize = 14,
+                Margin = new Thickness(15, 5, 15, 5)
             };
 
-            BitmapImage minhaBitmapImage = new BitmapImage();
-            minhaBitmapImage.BeginInit();
-            minhaBitmapImage.UriSource = new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute);
-            minhaBitmapImage.EndInit();
+            BitmapImage newBitmapImage = new BitmapImage();
+            newBitmapImage.BeginInit();
+            newBitmapImage.UriSource = new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute);
+            newBitmapImage.EndInit();
 
             //Cria a foto
             Image newMidia = new Image()
             {
-                Source = minhaBitmapImage,
+                Source = newBitmapImage,
                 MaxHeight = 150,
                 MaxWidth = 150
             };
 
-            //Cria o texto de quantidade de likes
+            //Cria a quantidade de likes
             TextBlock newLikes = new TextBlock() //Número de likes
             {
-                Text = postManager.buscarQuantidadeLike(i).ToString(),
+                Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString(),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5)
             };
 
-            //Cria o botão Curti
+            //Cria o botão Curtir
             Button botaoCurtir = new Button()
             {
                 Content = "Curtir",
@@ -196,25 +236,23 @@ namespace Posts
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                Child = gridUmPost
+                Child = gridPostCorpo
             };
 
             //Adiciona a borda no gridMensagens
             gridPosts.Children.Add(border);
 
-            //Adiciona o texto no balão
-            Grid.SetRow(newAutor, 0);
-            Grid.SetRow(newTitulo, 1);
-            Grid.SetRow(newTexto, 2);
-            Grid.SetRow(newMidia, 3);
-            Grid.SetRow(gridQtdLCR, 4);
-            Grid.SetRow(gridBotoes, 5);
-            gridUmPost.Children.Add(newAutor);
-            gridUmPost.Children.Add(newTitulo);
-            gridUmPost.Children.Add(newTexto);
-            gridUmPost.Children.Add(newMidia);
-            gridUmPost.Children.Add(gridQtdLCR);
-            gridUmPost.Children.Add(gridBotoes);
+            //Adiciona a foto e nome na gridAutor
+            Grid.SetRow(newAutorFoto, 0);
+            Grid.SetRowSpan(newAutorFoto, 2);
+            Grid.SetColumn(newAutorFoto, 0);
+            Grid.SetRow(newAutorNome, 0);
+            Grid.SetColumn(newAutorNome, 1);
+            Grid.SetRow(newDataHora, 1);
+            Grid.SetColumn(newDataHora, 1);
+            gridAutor.Children.Add(newAutorFoto);
+            gridAutor.Children.Add(newAutorNome);
+            gridAutor.Children.Add(newDataHora);
 
             //Adiciona a quantidade de likes, comentários e recomendações na gridQtdLCR
             Grid.SetColumn(newLikes, 0);
@@ -228,7 +266,21 @@ namespace Posts
             gridBotoes.Children.Add(botaoComentar);
             gridBotoes.Children.Add(botaoRecomendar);
 
-            //Adiciona o balão na tela
+            //Adiciona tudo no gridPostCorpo
+            Grid.SetRow(gridAutor, 0);
+            Grid.SetRow(newTitulo, 1);
+            Grid.SetRow(newTexto, 2);
+            Grid.SetRow(newMidia, 3);
+            Grid.SetRow(gridQtdLCR, 4);
+            Grid.SetRow(gridBotoes, 5);
+            gridPostCorpo.Children.Add(gridAutor);
+            gridPostCorpo.Children.Add(newTitulo);
+            gridPostCorpo.Children.Add(newTexto);
+            gridPostCorpo.Children.Add(newMidia);
+            gridPostCorpo.Children.Add(gridQtdLCR);
+            gridPostCorpo.Children.Add(gridBotoes);
+
+            //Adiciona o post na tela
             Grid.SetRow(border, gridPosts.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
 
@@ -243,13 +295,13 @@ namespace Posts
             {
                 postManager.AdicionarLike(i, codUsuario);
                 button.Background = new SolidColorBrush(Colors.PowderBlue);
-                textBlock.Text = postManager.buscarQuantidadeLike(i).ToString();
+                textBlock.Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString();
             }
             else
             {
                 postManager.RemoverLike(i, codUsuario);
                 button.Background = new SolidColorBrush(Colors.White);
-                textBlock.Text = postManager.buscarQuantidadeLike(i).ToString();
+                textBlock.Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString();
             }
         }
 
@@ -300,7 +352,7 @@ namespace Posts
             }
             else
             {
-                postManager.ArmazenarPost(codUsuario, campoTitulo.Text, campoTexto.Text, enderecoMidia);
+                postManager.ArmazenarPost(codUsuario, campoTitulo.Text, campoTexto.Text, enderecoMidia, DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
 
                 campoTitulo.Clear();
                 campoTexto.Clear();
