@@ -112,5 +112,8 @@
   <ItemGroup>
     <Resource Include="Imagens\Pukki.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\Like.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

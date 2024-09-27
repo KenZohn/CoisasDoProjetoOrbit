@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,16 +31,17 @@ namespace Posts
         int codUsuario;
         string enderecoMidia;
         string exibicaoPost;
+        string projectPath; //Caminho até o projeto para poder adicionar fotos e ícones
         public MainWindow()
         {
             InitializeComponent();
 
             //Atribuições para teste
-            //Precisa alterar o caminho das fotos para rodar    VVVVVVVV
-            usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Pukki.jpg");
-            usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Gojo.jpg");
-            usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Jennifer.jpeg");
-            usuarioManager.ArmazenarUsuario(3, "Luigi", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Posts\\Posts\\Imagens\\Luigi.png");
+            projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+            usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
+            usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
+            usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
+            usuarioManager.ArmazenarUsuario(3, "Luigi", projectPath + "\\Imagens\\Luigi.png");
 
             codUsuario = 0;
             enderecoMidia = "";
@@ -96,18 +98,58 @@ namespace Posts
             gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
             gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
 
-            //Colunas para os botões Curtir, Comentar e Recomendar
+            //Grid para os botões Curtir e Recomendar
             Grid gridBotoes = new Grid();
             gridBotoes.ColumnDefinitions.Add(new ColumnDefinition());//Botão curtir
-            gridBotoes.ColumnDefinitions.Add(new ColumnDefinition());//Botão comentar
             gridBotoes.ColumnDefinitions.Add(new ColumnDefinition());//Botão recomendar
+            //Borda do gridBotoes
+            Border borderBotoes = new Border()
+            {
+                BorderBrush = Brushes.DarkGray,
+                BorderThickness = new Thickness(0, 1, 0, 1)
+            };
+            borderBotoes.Child = gridBotoes;
 
-            //Colunar para a quantidade de likes, comentários e recomendações
-            Grid gridQtdLCR = new Grid();
-            gridQtdLCR.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de Likes
-            gridQtdLCR.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de Comentários
-            gridQtdLCR.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de Recomendações
+            //Botão curtir 
+            Grid gridCurtir = new Grid();
+            gridCurtir.ColumnDefinitions.Add(new ColumnDefinition());//Ícone curtir
+            gridCurtir.ColumnDefinitions.Add(new ColumnDefinition());//Quantidade de curtidas
+            //Ícone curtir
+            Image newIconeCurtir = new Image()
+            {
+                HorizontalAlignment = HorizontalAlignment.Right,
+                VerticalAlignment = VerticalAlignment.Center,
+                Height = 20,
+                Width = 20,
+                Margin = new Thickness(10),
+                Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Like.png", UriKind.RelativeOrAbsolute))
+            };
+            //Quantidade de curtidas
+            TextBlock newQuantidadeCurtida = new TextBlock()
+            {
+                Text = postManager.buscarQuantidadeLike(i).ToString(),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 14
+            };
+            gridCurtir.MouseLeftButtonUp += (sender, e) => gridCurtir_Click(sender, e, i, gridCurtir, newQuantidadeCurtida);
+            Grid.SetColumn(newIconeCurtir, 0);
+            Grid.SetColumn(newQuantidadeCurtida, 1);
+            gridCurtir.Children.Add(newIconeCurtir);
+            gridCurtir.Children.Add(newQuantidadeCurtida);
 
+            //Botão recomendar
+            Grid gridRecomendar = new Grid();
+            //Texto recomendar
+            TextBlock newRecomendar = new TextBlock()
+            {
+                Text = "Recomendar",
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                FontSize= 14
+            };
+            gridRecomendar.Children.Add(newRecomendar);
+            
             //Cria o balão
             Grid gridPostCorpo = new Grid();
             gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Autor do post
@@ -121,10 +163,6 @@ namespace Posts
             gridPosts.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
             //Cria a foto do autor
-            ImageBrush imageBrush = new ImageBrush();
-            BitmapImage bitmapImage = new BitmapImage(new Uri(usuarioManager.BuscarFoto(postManager.BuscarRemetente(i)), UriKind.Relative));
-            imageBrush.ImageSource = bitmapImage;
-
             Ellipse newAutorFoto = new Ellipse()
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
@@ -133,7 +171,7 @@ namespace Posts
                 Width = 45,
                 Stroke = Brushes.DarkGray,
                 Margin = new Thickness(10),
-                Fill = imageBrush
+                Fill = new ImageBrush(new BitmapImage(new Uri(usuarioManager.BuscarFoto(postManager.BuscarRemetente(i)), UriKind.Relative)))
             };
 
             //Cria o nome do autor
@@ -174,58 +212,13 @@ namespace Posts
                 Margin = new Thickness(15, 5, 15, 5)
             };
 
-            BitmapImage newBitmapImage = new BitmapImage();
-            newBitmapImage.BeginInit();
-            newBitmapImage.UriSource = new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute);
-            newBitmapImage.EndInit();
-
-            //Cria a foto
+            //Cria a foto do post
             Image newMidia = new Image()
             {
-                Source = newBitmapImage,
+                Source = new BitmapImage(new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute)),
                 MaxHeight = 150,
-                MaxWidth = 150
-            };
-
-            //Cria a quantidade de likes
-            TextBlock newLikes = new TextBlock() //Número de likes
-            {
-                Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString(),
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5)
-            };
-
-            //Cria o botão Curtir
-            Button botaoCurtir = new Button()
-            {
-                Content = "Curtir",
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(0, 0, 0, 0),
-                Background = new SolidColorBrush(Colors.White)
-            };
-
-            //Função de curtir
-            botaoCurtir.Click += (sender, e) => BotaoCurtir_Click(sender, e, i, botaoCurtir, newLikes);
-
-            //Cria o botão comentar
-            Button botaoComentar = new Button()
-            {
-                Content = "Comentar",
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(0, 0, 0, 0),
-                Background = new SolidColorBrush(Colors.White)
-            };
-
-            //Cria o botão recomendar
-            Button botaoRecomendar = new Button()
-            {
-                Content = "Recomendar",
-                VerticalAlignment = VerticalAlignment.Center,
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                Margin = new Thickness(0, 0, 0, 0),
-                Background = new SolidColorBrush(Colors.White)
+                MaxWidth = 150,
+                Margin = new Thickness(0, 0, 0, 10)
             };
 
             //Cria a borda arredondada
@@ -254,66 +247,58 @@ namespace Posts
             gridAutor.Children.Add(newAutorNome);
             gridAutor.Children.Add(newDataHora);
 
-            //Adiciona a quantidade de likes, comentários e recomendações na gridQtdLCR
-            Grid.SetColumn(newLikes, 0);
-            gridQtdLCR.Children.Add(newLikes);
-
             //Adiciona os botões na gridBotoes
-            Grid.SetColumn(botaoCurtir, 0);
-            Grid.SetColumn(botaoComentar, 1);
-            Grid.SetColumn(botaoRecomendar, 2);
-            gridBotoes.Children.Add(botaoCurtir);
-            gridBotoes.Children.Add(botaoComentar);
-            gridBotoes.Children.Add(botaoRecomendar);
+            Grid.SetColumn(gridCurtir, 0);
+            Grid.SetColumn(gridRecomendar, 1);
+            gridBotoes.Children.Add(gridCurtir);
+            gridBotoes.Children.Add(gridRecomendar);
 
             //Adiciona tudo no gridPostCorpo
             Grid.SetRow(gridAutor, 0);
             Grid.SetRow(newTitulo, 1);
             Grid.SetRow(newTexto, 2);
             Grid.SetRow(newMidia, 3);
-            Grid.SetRow(gridQtdLCR, 4);
-            Grid.SetRow(gridBotoes, 5);
+            Grid.SetRow(borderBotoes, 4);
             gridPostCorpo.Children.Add(gridAutor);
             gridPostCorpo.Children.Add(newTitulo);
             gridPostCorpo.Children.Add(newTexto);
             gridPostCorpo.Children.Add(newMidia);
-            gridPostCorpo.Children.Add(gridQtdLCR);
-            gridPostCorpo.Children.Add(gridBotoes);
+            gridPostCorpo.Children.Add(borderBotoes);
 
             //Adiciona o post na tela
             Grid.SetRow(border, gridPosts.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
 
             //Altera a cor do botão do like
-            alterarCorBotaoLike(i, botaoCurtir);
+            alterarCorBotaoLike(i, gridCurtir);
         }
 
         //Função do botão Curtir
-        private void BotaoCurtir_Click(object sender, EventArgs e, int i, Button button, TextBlock textBlock)
+        private void gridCurtir_Click(object sender, EventArgs e, int i, Grid grid, TextBlock textBlock)
         {
             if (!postManager.verificarUsuarioLike(i, codUsuario))
             {
                 postManager.AdicionarLike(i, codUsuario);
-                button.Background = new SolidColorBrush(Colors.PowderBlue);
-                textBlock.Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString();
+                grid.Background = new SolidColorBrush(Colors.PowderBlue);
+                textBlock.Text = postManager.buscarQuantidadeLike(i).ToString();
             }
             else
             {
                 postManager.RemoverLike(i, codUsuario);
-                button.Background = new SolidColorBrush(Colors.White);
-                textBlock.Text = "Curtidas: " + postManager.buscarQuantidadeLike(i).ToString();
+                grid.Background = new SolidColorBrush(Colors.White);
+                textBlock.Text = postManager.buscarQuantidadeLike(i).ToString();
             }
         }
 
-        private void alterarCorBotaoLike(int i, Button button)
+        private void alterarCorBotaoLike(int i, Grid grid)
         {
             if (postManager.verificarUsuarioLike(i, codUsuario))
             {
-                button.Background = new SolidColorBrush(Colors.PowderBlue);
+                grid.Background = new SolidColorBrush(Colors.PowderBlue);
             }
             else
             {
-                button.Background = new SolidColorBrush(Colors.White);
+                grid.Background = new SolidColorBrush(Colors.White);
             }
         }
 
