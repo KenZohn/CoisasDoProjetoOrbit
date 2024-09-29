@@ -4,6 +4,79 @@
              xmlns:local="clr-namespace:Posts"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <!--Botão arredondado-->
+        <Style x:Key="BotaoPosts" TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="#F0F0FA"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#37376E"/>
+        </Style>
+        <!--Botão Seus-->
+        <Style x:Key="BotaoSeus" TargetType="Button" BasedOn="{StaticResource BotaoPosts}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" CornerRadius="5, 0, 0, 0" BorderBrush="#37376E" BorderThickness="1, 1, 0, 0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Botão Amigos-->
+        <Style x:Key="BotaoAmigos" TargetType="Button" BasedOn="{StaticResource BotaoPosts}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" CornerRadius="0, 0, 0, 0" BorderBrush="#37376E" BorderThickness="0, 1, 0, 0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--Botão Todos-->
+        <Style x:Key="BotaoTodos" TargetType="Button" BasedOn="{StaticResource BotaoPosts}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" CornerRadius="0, 5, 0, 0" BorderBrush="#37376E" BorderThickness="0, 1, 1, 0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!--TextBox arredondado-->
+        <Style x:Key="TextBoxArredondado" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border CornerRadius="10" BorderBrush="#FFFFFF" BorderThickness="1">
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--Botão postar arredondado-->
+        <Style x:Key="BotaoPostar" TargetType="Button">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#F0F0FA"/>
+            <Setter Property="Background" Value="#37376E"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="borda" CornerRadius="5" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </Application.Resources>
 </Application>

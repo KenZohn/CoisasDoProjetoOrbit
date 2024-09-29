@@ -43,3 +43,4 @@ C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.csp
 C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.csproj.CoreCompileInputs.cache
 C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.exe
 C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.pdb
+C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\Posts\Posts\obj\Debug\App.baml

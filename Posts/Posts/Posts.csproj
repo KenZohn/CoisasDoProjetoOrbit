@@ -115,5 +115,21 @@
   <ItemGroup>
     <Resource Include="Icones\Like.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\AdicionarFoto.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\Comentario.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\Enviar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\Enviar2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\LikeAzul.png" />
+    <Resource Include="Icones\LikeAzulPreenchido.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
