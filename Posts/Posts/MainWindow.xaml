@@ -24,7 +24,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Button x:Name="botaoPostProprio" Grid.Column="0" Content="Seus" Height="30" Click="botaoPostProprio_Click" Style="{StaticResource BotaoSeus}" MouseEnter="botaoPostProprio_MouseEnter" MouseLeave="botaoPostProprio_MouseLeave"/>
-                        <Button x:Name="botaoPostAmigos" Grid.Column="1" Content="Amigos" Height="30" Style="{StaticResource BotaoAmigos}" MouseEnter="botaoPostAmigos_MouseEnter" MouseLeave="botaoPostAmigos_MouseLeave"/>
+                        <Button x:Name="botaoPostAmigos" Grid.Column="1" Content="Amigos" Height="30" Style="{StaticResource BotaoAmigos}" MouseEnter="botaoPostAmigos_MouseEnter" MouseLeave="botaoPostAmigos_MouseLeave" Click="botaoPostAmigos_Click"/>
                         <Button x:Name="botaoPostGeral" Grid.Column="2" Content="Todos" Height="30" Click="botaoPostGeral_Click" Style="{StaticResource BotaoTodos}" MouseEnter="botaoPostGeral_MouseEnter" MouseLeave="botaoPostGeral_MouseLeave"/>
                     </Grid>
                     <Border Grid.Row="1" Background="#FFFFFFFF" CornerRadius="0,0,5,5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderBrush="#37376E" BorderThickness="1, 0, 1, 1">

@@ -10,7 +10,7 @@ namespace Posts
     public class Usuario
     {
         public int CodUsuario { get; set; }
-        public string Nome {  get; set; }
+        public string Nome { get; set; }
         public string Foto { get; set; }
         public ArrayList Amigos { get; set; } = new ArrayList();
     }
@@ -54,6 +54,11 @@ namespace Posts
         public int BuscarQuantidadeAmigos(int codUsuario)
         {
             return usuario[codUsuario].Amigos.Count;
+        }
+
+        public Boolean VerificarCodAmigo(int codUsuario, int codAmigo)
+        {
+            return usuario[codUsuario].Amigos.Contains(codAmigo);
         }
     }
 }

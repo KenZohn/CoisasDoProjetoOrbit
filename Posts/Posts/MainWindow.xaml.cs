@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,6 +29,9 @@ namespace Posts
     Mudar a cor do ícone de like quando der like
     Função excluir postagem
     Adicionar botão para remover a foto prévia
+    Arredondar borda quando passa o mouse no adicionar foto
+    Posts Amigos é para mostrar só dos amigos ou o próprio também?
+    Criar Label "Comente algo" no campo comentário
     */
     public partial class MainWindow : Window
     {
@@ -49,26 +53,28 @@ namespace Posts
             InitializeComponent();
 
             //Atribuições para teste
+            codUsuario = 0;
+            enderecoMidia = "";
+            exibicaoPost = "proprio";
+
             projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName; //Pega o caminho do projeto
             usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
             usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
             usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
             usuarioManager.ArmazenarUsuario(3, "Luigi", projectPath + "\\Imagens\\Luigi.png");
 
-            codUsuario = 0;
-            enderecoMidia = "";
+            usuarioManager.AdicionarAmigo(codUsuario, 2);
+
             postManager.ArmazenarPost(0, "Fiz um pudim muito bom!", "", "22/09/2024 10:10");
+            postManager.ArmazenarPost(1, "Alguém sabe onde eu coloquei minha carteira?", "", "22/09/2024 10:54");
             postManager.ArmazenarPost(0, "Olha esse elefante gigante", "", "22/09/2024 11:13");
-            postManager.ArmazenarPost(1, "Leve uma perna para frente e em seguida a perna oposta. Repita o processo.", "", "23/09/2024 09:54");
             postManager.ArmazenarPost(1, "Deixa o Like!", "", "23/09/2024 15:33");
             postManager.ArmazenarPost(3, "Que Mario?", "", "23/09/2024 19:27");
-            postManager.ArmazenarPost(2, "Se preparem para um novo filme", "", "24/09/2024 01:11");
+            postManager.ArmazenarPost(2, "Estou com fome", "", "24/09/2024 01:11");
             postManager.AdicionarLike(0, 2);
             postManager.AdicionarLike(0, 3);
             postManager.AdicionarLike(0, 4);
             postManager.AdicionarLike(1, 4);
-
-            exibicaoPost = "proprio";
 
             //Instância das cores
             corFundo = new SolidColorBrush(Color.FromRgb(240, 240, 250));
@@ -79,8 +85,8 @@ namespace Posts
             atualizarPaginaPostProprio();
             exibirFotoPerfil();
 
-            botaoPostProprio.Background = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-            botaoPostProprio.Foreground = new SolidColorBrush(Color.FromRgb(55, 55, 110));
+            botaoPostProprio.Background = corPlano;
+            botaoPostProprio.Foreground = corPrincipal;
         }
 
         //Coloca todos os posts do próprio usuário na página
@@ -91,6 +97,20 @@ namespace Posts
             for (int i = postManager.BuscarQuantidade() - 1; i >= 0; i--)
             {
                 if (postManager.VerificarPostProprio(i, codUsuario))
+                {
+                    publicarPost(i);
+                }
+            }
+        }
+
+        //Coloca todos os posts de todos na página
+        public void atualizarPaginaPostAmigos()
+        {
+            gridPosts.Children.Clear();
+
+            for (int i = postManager.BuscarQuantidade() - 1; i >= 0; i--)
+            {
+                if (usuarioManager.VerificarCodAmigo(codUsuario, postManager.BuscarRemetente(i)))
                 {
                     publicarPost(i);
                 }
@@ -232,6 +252,8 @@ namespace Posts
                 HorizontalAlignment = HorizontalAlignment.Center,
                 FontSize = 14
             };
+            borderRecomendar.MouseEnter += (sender, e) => borderRecomendar_MouseEnter(sender, e, i, borderRecomendar);
+            borderRecomendar.MouseLeave += (sender, e) => borderRecomendar_MouseLeave(sender, e, i, borderRecomendar);
             gridRecomendar.Children.Add(newRecomendar);
 
             //Cria a foto do autor
@@ -281,7 +303,7 @@ namespace Posts
                 Source = new BitmapImage(new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute)),
                 MaxHeight = 150,
                 MaxWidth = 150,
-                Margin = new Thickness(0, 0, 0, 10)
+                Margin = new Thickness(0, 10, 0, 10)
             };
 
             //Cria a borda arredondada
@@ -449,7 +471,6 @@ namespace Posts
         }
 
         //Altera cor quando passa o mouse no Comentar
-
         private void borderComentar_MouseEnter(object sender, MouseEventArgs e, int i, Border borderComentar)
         {
             borderComentar.Background = corFundo;
@@ -459,6 +480,18 @@ namespace Posts
         private void borderComentar_MouseLeave(object sender, MouseEventArgs e, int i, Border borderComentar)
         {
             borderComentar.Background = corPlano;
+        }
+
+        //Altera cor quando passa o mouse no Recomendar
+        private void borderRecomendar_MouseEnter(object sender, MouseEventArgs e, int i, Border borderRecomendar)
+        {
+            borderRecomendar.Background = corFundo;
+        }
+
+        //Altera cor quando tira o mouse do Recomendar
+        private void borderRecomendar_MouseLeave(object sender, MouseEventArgs e, int i, Border borderRecomendar)
+        {
+            borderRecomendar.Background= corPlano;
         }
 
         //Apagar a label "Texto" quando digitar
@@ -494,7 +527,11 @@ namespace Posts
             {
                 atualizarPaginaPostProprio();
             }
-            else if (exibicaoPost == "geral")
+            else if (exibicaoPost == "amigos")
+            {
+                atualizarPaginaPostAmigos();
+            }
+            else
             {
                 atualizarPaginaPostGeral();
             }
@@ -530,12 +567,12 @@ namespace Posts
                 Source = new BitmapImage(new Uri(enderecoMidia, UriKind.RelativeOrAbsolute)),
                 MaxHeight = 150,
                 MaxWidth = 150,
-                Margin = new Thickness(0, 10, 0, 0)
+                Margin = new Thickness(0, 10, 0, 10)
             };
 
             Grid.SetRow(newMidia, 1);
-            Grid.SetColumn(newMidia, 1);
-            Grid.SetColumnSpan(newMidia, 3);
+            Grid.SetColumn(newMidia, 0);
+            Grid.SetColumnSpan(newMidia, 4);
             gridFormPost.Children.Add(newMidia);
         }
 
@@ -553,24 +590,37 @@ namespace Posts
         private void botaoPostProprio_Click(object sender, RoutedEventArgs e)
         {
             atualizarPaginaPostProprio();
+            alterarCorBotaoPost(botaoPostProprio);
             exibicaoPost = "proprio";
+        }
 
-            botaoPostProprio.Background = corPlano;
-            botaoPostGeral.Background = corPrincipal;
-            botaoPostProprio.Foreground = corPrincipal;
-            botaoPostGeral.Foreground = corFundo;
+        //Mostrar postagens dos amigos
+        private void botaoPostAmigos_Click(object sender, RoutedEventArgs e)
+        {
+            atualizarPaginaPostAmigos();
+            alterarCorBotaoPost(botaoPostAmigos);
+            exibicaoPost = "amigos";
         }
 
         //Mostrar postagens de todos
         private void botaoPostGeral_Click(object sender, RoutedEventArgs e)
         {
             atualizarPaginaPostGeral();
+            alterarCorBotaoPost(botaoPostGeral);
             exibicaoPost = "geral";
+        }
 
+        private void alterarCorBotaoPost(Button botaoPost)
+        {
             botaoPostProprio.Background = corPrincipal;
-            botaoPostGeral.Background = corPlano;
+            botaoPostAmigos.Background = corPrincipal;
+            botaoPostGeral.Background = corPrincipal;
             botaoPostProprio.Foreground = corFundo;
-            botaoPostGeral.Foreground = corPrincipal;
+            botaoPostAmigos.Foreground = corFundo;
+            botaoPostGeral.Foreground = corFundo;
+
+            botaoPost.Background = corPlano;
+            botaoPost.Foreground = corPrincipal;
         }
 
         //Exibir a foto de perfil no formulário de post
