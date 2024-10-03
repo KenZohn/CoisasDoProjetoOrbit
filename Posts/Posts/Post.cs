@@ -10,6 +10,7 @@ namespace Posts
     public class Post
     {
         public int Remetente { get; set; }
+        public string Titulo { get; set; }
         public string Texto { get; set; }
         public string Midia { get; set; }
         public string Data { get; set; }
@@ -21,11 +22,12 @@ namespace Posts
     {
         private static List<Post> posts = new List<Post>();
 
-        public void ArmazenarPost(int remetente, string texto, string midia, string data)
+        public void ArmazenarPost(int remetente, string titulo, string texto, string midia, string data)
         {
             Post novoPost = new Post()
             {
                 Remetente = remetente,
+                Titulo = titulo,
                 Texto = texto,
                 Midia = midia,
                 Data = data
@@ -46,6 +48,11 @@ namespace Posts
         public int BuscarRemetente(int i)
         {
             return posts[i].Remetente;
+        }
+
+        public string BuscarTitulo(int i)
+        {
+            return posts[i].Titulo;
         }
 
         public string BuscarTexto(int i)

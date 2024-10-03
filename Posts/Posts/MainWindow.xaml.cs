@@ -26,12 +26,13 @@ namespace Posts
 
     /*
     Para fazer:
-    Mudar a cor do ícone de like quando der like
     Função excluir postagem
     Adicionar botão para remover a foto prévia
-    Arredondar borda quando passa o mouse no adicionar foto
     Posts Amigos é para mostrar só dos amigos ou o próprio também?
     Criar Label "Comente algo" no campo comentário
+    Limitar quantidade de caractéres do campo título
+    Limitar linhas dos campos texto e comentário
+    Deixar as rows vazias caso não tenha conteúdo (usar if(isNull))
     */
     public partial class MainWindow : Window
     {
@@ -58,6 +59,7 @@ namespace Posts
             exibicaoPost = "proprio";
 
             projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName; //Pega o caminho do projeto
+            
             usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
             usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
             usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
@@ -65,12 +67,92 @@ namespace Posts
 
             usuarioManager.AdicionarAmigo(codUsuario, 2);
 
-            postManager.ArmazenarPost(0, "Fiz um pudim muito bom!", "", "22/09/2024 10:10");
-            postManager.ArmazenarPost(1, "Alguém sabe onde eu coloquei minha carteira?", "", "22/09/2024 10:54");
-            postManager.ArmazenarPost(0, "Olha esse elefante gigante", "", "22/09/2024 11:13");
-            postManager.ArmazenarPost(1, "Deixa o Like!", "", "23/09/2024 15:33");
-            postManager.ArmazenarPost(3, "Que Mario?", "", "23/09/2024 19:27");
-            postManager.ArmazenarPost(2, "Estou com fome", "", "24/09/2024 01:11");
+            RichTextBox tempRichTextBox = new RichTextBox();
+
+            tempRichTextBox.AppendText("Fiz um pudim muito bom!");
+            TextRange tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            string tempTextoFormatado;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(0, "El Pudinho", tempTextoFormatado, "", "22/09/2024 10:10");
+            tempRichTextBox.Document.Blocks.Clear();
+
+            tempRichTextBox.AppendText("Alguém sabe onde eu coloquei minha carteira?");
+            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(1, "", tempTextoFormatado, "", "22/09/2024 10:54");
+            tempRichTextBox.Document.Blocks.Clear();
+
+            tempRichTextBox.AppendText("Olha esse elefante gigante");
+            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(0, "", tempTextoFormatado, "", "22/09/2024 11:13");
+            tempRichTextBox.Document.Blocks.Clear();
+
+            tempRichTextBox.AppendText("Deixa o Like!");
+            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(1, "", tempTextoFormatado, "", "23/09/2024 15:33");
+            tempRichTextBox.Document.Blocks.Clear();
+
+            tempRichTextBox.AppendText("Que Mario?");
+            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(3, "", tempTextoFormatado, "", "23/09/2024 19:27");
+            tempRichTextBox.Document.Blocks.Clear();
+
+            tempRichTextBox.AppendText("Estou com fome");
+            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
+            using (MemoryStream stream = new MemoryStream())
+            {
+                tempTextRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    tempTextoFormatado = reader.ReadToEnd();
+                }
+            }
+            postManager.ArmazenarPost(2, "", tempTextoFormatado, "", "24/09/2024 01:11");
+
             postManager.AdicionarLike(0, 2);
             postManager.AdicionarLike(0, 3);
             postManager.AdicionarLike(0, 4);
@@ -134,6 +216,7 @@ namespace Posts
             //Cria o grid do corpo do post
             Grid gridPostCorpo = new Grid();
             gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Autor do post
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Título
             gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Texto
             gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Mídia
             gridPostCorpo.RowDefinitions.Add(new RowDefinition());//Quantidade de Likes, comentários e recomendações
@@ -288,14 +371,40 @@ namespace Posts
                 Margin = new Thickness(5, -10, 0, 0)
             };
 
-            //Cria o texto
-            TextBlock newTexto = new TextBlock()
+            //Cria o titulo
+            TextBlock newTitulo = new TextBlock()
             {
-                Text = postManager.BuscarTexto(i),
+                Text = postManager.BuscarTitulo(i),
+                HorizontalAlignment = HorizontalAlignment.Center,
                 TextWrapping = TextWrapping.Wrap,
-                FontSize = 14,
-                Margin = new Thickness(15, 5, 15, 5)
+                FontSize = 16,
+                Foreground = corPrincipal,
+                FontWeight= FontWeights.Bold,
+                Margin = new Thickness(0, 5, 0, 5)
             };
+
+            //Cria o texto
+            RichTextBox newTexto = new RichTextBox()
+            {
+                FontSize = 14,
+                Margin = new Thickness(15, 5, 15, 5),
+                IsReadOnly = true,
+                Style = (Style)FindResource("RichTextBoxArredondado")
+            };
+            newTexto.Document.Blocks.Clear();
+            //Carrega o texto formatado do Xaml armazenado
+            string textoFormatado = postManager.BuscarTexto(i);
+            using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(textoFormatado)))
+            {
+                try
+                {
+                    TextRange range = new TextRange(newTexto.Document.ContentStart, newTexto.Document.ContentEnd);
+                    range.Load(stream, DataFormats.Xaml);
+                } catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao carregar o texto formatado: " + ex.Message);
+                }
+            }
 
             //Cria a foto do post
             Image newMidia = new Image()
@@ -344,10 +453,12 @@ namespace Posts
 
             //Adiciona tudo no gridPostCorpo
             Grid.SetRow(gridAutor, 0);
-            Grid.SetRow(newTexto, 1);
-            Grid.SetRow(newMidia, 2);
-            Grid.SetRow(borderBotoes, 3);
+            Grid.SetRow(newTitulo, 1);
+            Grid.SetRow(newTexto, 2);
+            Grid.SetRow(newMidia, 3);
+            Grid.SetRow(borderBotoes, 4);
             gridPostCorpo.Children.Add(gridAutor);
+            gridPostCorpo.Children.Add(newTitulo);
             gridPostCorpo.Children.Add(newTexto);
             gridPostCorpo.Children.Add(newMidia);
             gridPostCorpo.Children.Add(borderBotoes);
@@ -405,7 +516,7 @@ namespace Posts
         //Função do botão comentário. Abre o campo para comentar e mostra outros comentários.
         private void borderComentar_Click(Object sender, EventArgs e, int i, Grid gridPostCorpo, Border borderBotoes, Border borderCurtir)
         {
-            if (gridPostCorpo.Children.Count < 5)
+            if (gridPostCorpo.Children.Count < 6)
             {
                 gridPostCorpo.RowDefinitions.Add(new RowDefinition());
                 Grid gridFormComentario = new Grid();
@@ -429,6 +540,7 @@ namespace Posts
                     HorizontalAlignment = HorizontalAlignment.Stretch,
                     VerticalAlignment = VerticalAlignment.Stretch,
                     VerticalContentAlignment = VerticalAlignment.Center,
+                    FontSize = 14,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(10, 10, 10, 10),
                     Padding = new Thickness(5, 5, 30, 5),
@@ -451,7 +563,7 @@ namespace Posts
                 gridFormComentario.Children.Add(newCampoComentario);
                 gridFormComentario.Children.Add(newBotaoEnviarComentario);
 
-                Grid.SetRow(gridFormComentario, 4);
+                Grid.SetRow(gridFormComentario, 5);
                 gridPostCorpo.Children.Add(gridFormComentario);
 
                 newCampoComentario.Focus();
@@ -495,9 +607,24 @@ namespace Posts
         }
 
         //Apagar a label "Texto" quando digitar
+        private void campoTitulo_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(campoTitulo.Text))
+            {
+                labelTitulo.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                labelTitulo.Visibility = Visibility.Hidden;
+            }
+        }
+
+        //Apagar a label "Texto" quando digitar
         private void campoTexto_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (String.IsNullOrEmpty(campoTexto.Text))
+            TextRange conteudo = new TextRange(campoTexto.Document.ContentStart, campoTexto.Document.ContentEnd); // Captura o texto no RichTextBox
+            string texto = conteudo.Text.Trim();
+            if (String.IsNullOrEmpty(texto))
             {
                 labelTexto.Visibility = Visibility.Visible;
             }
@@ -510,15 +637,29 @@ namespace Posts
         //Botão para postar o post
         private void botaoPostar_Click(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(campoTexto.Text) && enderecoMidia == "")
+            TextRange textRange = new TextRange(campoTexto.Document.ContentStart, campoTexto.Document.ContentEnd);
+            string textoFormatado;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                textRange.Save(stream, DataFormats.Xaml);
+                stream.Position = 0;
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    textoFormatado = reader.ReadToEnd();
+                }
+            }
+            bool isRichTextBoxEmpty = string.IsNullOrWhiteSpace(textRange.Text.Trim()) || textoFormatado.Trim().Equals("<FlowDocument xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" />");
+
+            if (isRichTextBoxEmpty && string.IsNullOrEmpty(enderecoMidia))
             {
                 MessageBox.Show("Escreva algum texto ou selecione uma imagem.");
             }
             else
             {
-                postManager.ArmazenarPost(codUsuario, campoTexto.Text, enderecoMidia, DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
+                postManager.ArmazenarPost(codUsuario, campoTitulo.Text, textoFormatado, enderecoMidia, DateTime.Now.ToString("dd/MM/yyyy HH:mm"));
 
-                campoTexto.Clear();
+                campoTitulo.Clear();
+                campoTexto.Document.Blocks.Clear();
                 enderecoMidia = "";
                 removerPrevia(); //Remove a prévia da foto após postar
             }
@@ -570,7 +711,7 @@ namespace Posts
                 Margin = new Thickness(0, 10, 0, 10)
             };
 
-            Grid.SetRow(newMidia, 1);
+            Grid.SetRow(newMidia, 2);
             Grid.SetColumn(newMidia, 0);
             Grid.SetColumnSpan(newMidia, 4);
             gridFormPost.Children.Add(newMidia);
@@ -579,7 +720,7 @@ namespace Posts
         //Remove a prévia da foto
         private void removerPrevia()
         {
-            var elementsInRow = gridFormPost.Children.Cast<UIElement>().Where(n => Grid.GetRow(n) == 1).ToList();
+            var elementsInRow = gridFormPost.Children.Cast<UIElement>().Where(n => Grid.GetRow(n) == 2).ToList();
             foreach (var element in elementsInRow)
             {
                 gridFormPost.Children.Remove(element);
@@ -695,6 +836,58 @@ namespace Posts
             {
                 botaoPostGeral.Background = corPrincipal;
             }
+        }
+
+        private void botaoNegrito_Click(object sender, RoutedEventArgs e)
+        {
+            TextSelection selectedText = campoTexto.Selection;
+            if (!selectedText.IsEmpty)
+            {
+                if (selectedText.GetPropertyValue(TextElement.FontWeightProperty).Equals(FontWeights.Bold))
+                {
+                    selectedText.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Normal);
+                }
+                else
+                {
+                    selectedText.ApplyPropertyValue(TextElement.FontWeightProperty, FontWeights.Bold);
+                }
+            }
+            campoTexto.Focus();
+        }
+
+        private void botaoItalico_Click(object sender, RoutedEventArgs e)
+        {
+            TextSelection selectedText = campoTexto.Selection;
+            if (!selectedText.IsEmpty)
+            {
+                if (selectedText.GetPropertyValue(TextElement.FontStyleProperty).Equals(FontStyles.Italic))
+                {
+                    selectedText.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Normal);
+                }
+                else
+                {
+                    selectedText.ApplyPropertyValue(TextElement.FontStyleProperty, FontStyles.Italic);
+                }
+            }
+            campoTexto.Focus();
+        }
+
+        private void botaoSublinhado_Click(object sender, RoutedEventArgs e)
+        {
+            TextSelection selectedText = campoTexto.Selection;
+            if (!selectedText.IsEmpty)
+            {
+                TextDecorationCollection textDecorations = (TextDecorationCollection)selectedText.GetPropertyValue(Inline.TextDecorationsProperty);
+                if (textDecorations == TextDecorations.Underline)
+                {
+                    selectedText.ApplyPropertyValue(Inline.TextDecorationsProperty, null);
+                }
+                else
+                {
+                    selectedText.ApplyPropertyValue(Inline.TextDecorationsProperty, TextDecorations.Underline);
+                }
+            }
+            campoTexto.Focus();
         }
     }
 }

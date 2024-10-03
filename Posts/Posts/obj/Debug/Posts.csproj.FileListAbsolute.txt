@@ -44,3 +44,35 @@ C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.csp
 C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.exe
 C:\Users\NettN\OneDrive\Documentos\Projeto Orkut\Posts\Posts\obj\Debug\Posts.pdb
 C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\Posts\Posts\obj\Debug\App.baml
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\bin\Debug\Posts.exe.config
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\bin\Debug\Posts.exe
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\bin\Debug\Posts.pdb
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.csproj.AssemblyReference.cache
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\MainWindow.g.cs
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\App.g.cs
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts_MarkupCompile.cache
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts_MarkupCompile.lref
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\App.baml
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\MainWindow.baml
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.g.resources
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.Properties.Resources.resources
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.csproj.GenerateResource.cache
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.csproj.CoreCompileInputs.cache
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.exe
+C:\Users\Cliente\Source\Repos\CoisasDoProjetoOrkut\Posts\Posts\obj\Debug\Posts.pdb
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\bin\Debug\Posts.exe.config
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\bin\Debug\Posts.exe
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\bin\Debug\Posts.pdb
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.csproj.AssemblyReference.cache
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\MainWindow.g.cs
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\App.g.cs
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts_MarkupCompile.cache
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts_MarkupCompile.lref
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\App.baml
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\MainWindow.baml
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.g.resources
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.Properties.Resources.resources
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.csproj.GenerateResource.cache
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.csproj.CoreCompileInputs.cache
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.exe
+C:\Users\ZettZ\Downloads\Posts\Posts\Posts\obj\Debug\Posts.pdb
