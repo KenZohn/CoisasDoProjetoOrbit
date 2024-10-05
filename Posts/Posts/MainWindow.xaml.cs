@@ -13,10 +13,12 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using Posts.Models;
 
 namespace Posts
 {
@@ -26,18 +28,16 @@ namespace Posts
 
     /*
     Para fazer:
-    Função excluir postagem
     Adicionar botão para remover a foto prévia
     Posts Amigos é para mostrar só dos amigos ou o próprio também?
     Criar Label "Comente algo" no campo comentário
-    Limitar quantidade de caractéres do campo título
-    Limitar linhas dos campos texto e comentário
-    Deixar as rows vazias caso não tenha conteúdo (usar if(isNull))
+    Perguntar se realmente deseja excluir o post
     */
     public partial class MainWindow : Window
     {
         private PostManager postManager = new PostManager();
         private UsuarioManager usuarioManager = new UsuarioManager();
+        private Teste teste = new Teste();
 
         int codUsuario;
         string enderecoMidia;
@@ -49,6 +49,7 @@ namespace Posts
         SolidColorBrush corPrincipal;
         SolidColorBrush corSecundaria;
         SolidColorBrush corPlano;
+        SolidColorBrush corLinha;
         public MainWindow()
         {
             InitializeComponent();
@@ -59,116 +60,42 @@ namespace Posts
             exibicaoPost = "proprio";
 
             projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName; //Pega o caminho do projeto
-            
-            usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
-            usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
-            usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
-            usuarioManager.ArmazenarUsuario(3, "Luigi", projectPath + "\\Imagens\\Luigi.png");
 
-            usuarioManager.AdicionarAmigo(codUsuario, 2);
-
-            RichTextBox tempRichTextBox = new RichTextBox();
-
-            tempRichTextBox.AppendText("Fiz um pudim muito bom!");
-            TextRange tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            string tempTextoFormatado;
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(0, "El Pudinho", tempTextoFormatado, "", "22/09/2024 10:10");
-            tempRichTextBox.Document.Blocks.Clear();
-
-            tempRichTextBox.AppendText("Alguém sabe onde eu coloquei minha carteira?");
-            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(1, "", tempTextoFormatado, "", "22/09/2024 10:54");
-            tempRichTextBox.Document.Blocks.Clear();
-
-            tempRichTextBox.AppendText("Olha esse elefante gigante");
-            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(0, "", tempTextoFormatado, "", "22/09/2024 11:13");
-            tempRichTextBox.Document.Blocks.Clear();
-
-            tempRichTextBox.AppendText("Deixa o Like!");
-            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(1, "", tempTextoFormatado, "", "23/09/2024 15:33");
-            tempRichTextBox.Document.Blocks.Clear();
-
-            tempRichTextBox.AppendText("Que Mario?");
-            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(3, "", tempTextoFormatado, "", "23/09/2024 19:27");
-            tempRichTextBox.Document.Blocks.Clear();
-
-            tempRichTextBox.AppendText("Estou com fome");
-            tempTextRange = new TextRange(tempRichTextBox.Document.ContentStart, tempRichTextBox.Document.ContentEnd);
-            using (MemoryStream stream = new MemoryStream())
-            {
-                tempTextRange.Save(stream, DataFormats.Xaml);
-                stream.Position = 0;
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    tempTextoFormatado = reader.ReadToEnd();
-                }
-            }
-            postManager.ArmazenarPost(2, "", tempTextoFormatado, "", "24/09/2024 01:11");
-
-            postManager.AdicionarLike(0, 2);
-            postManager.AdicionarLike(0, 3);
-            postManager.AdicionarLike(0, 4);
-            postManager.AdicionarLike(1, 4);
+            teste.AdicionarUsuario();
+            teste.AdicionarAmigo(codUsuario);
+            teste.AdicionarPost();
+            teste.AdicionarLike();
+            teste.AdicionarComentario();
 
             //Instância das cores
             corFundo = new SolidColorBrush(Color.FromRgb(240, 240, 250));
             corPrincipal = new SolidColorBrush(Color.FromRgb(55, 55, 110));
             corSecundaria = new SolidColorBrush(Color.FromRgb(75, 75, 130));
             corPlano = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            corLinha = new SolidColorBrush(Color.FromRgb(200, 200, 200));
 
             atualizarPaginaPostProprio();
             exibirFotoPerfil();
 
             botaoPostProprio.Background = corPlano;
             botaoPostProprio.Foreground = corPrincipal;
+        }
+
+        //Define qual função de atualizarPaginaPost vai ser executado
+        public void atualizarPagina(string exibicaoPost)
+        {
+            if (exibicaoPost == "proprio")
+            {
+                atualizarPaginaPostProprio();
+            }
+            else if (exibicaoPost == "amigos")
+            {
+                atualizarPaginaPostAmigos();
+            }
+            else
+            {
+                atualizarPaginaPostGeral();
+            }
         }
 
         //Coloca todos os posts do próprio usuário na página
@@ -230,6 +157,7 @@ namespace Posts
             gridAutor.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             gridAutor.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
             gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            gridAutor.ColumnDefinitions.Add(new ColumnDefinition());
             gridAutor.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
 
             //Grid para os botões Curtir, Comentar e Recomendar
@@ -240,8 +168,9 @@ namespace Posts
             //Borda do gridBotoes
             Border borderBotoes = new Border()
             {
-                BorderBrush = corPrincipal,
-                BorderThickness = new Thickness(0, 1, 0, 0)
+                BorderBrush = corLinha,
+                BorderThickness = new Thickness(0, 1, 0, 0),
+                Margin = new Thickness(10, 0, 10, 0)
             };
             borderBotoes.Child = gridBotoes;
 
@@ -253,7 +182,8 @@ namespace Posts
             Border borderCurtir = new Border()
             {
                 Background = corPlano,
-                CornerRadius = new CornerRadius(0, 0, 0, 5)
+                CornerRadius = new CornerRadius(5),
+                Margin = new Thickness(5)
             };
             borderCurtir.Child = gridCurtir;
             //Ícone curtir
@@ -263,16 +193,18 @@ namespace Posts
                 VerticalAlignment = VerticalAlignment.Center,
                 Height = 20,
                 Width = 20,
-                Margin = new Thickness(10),
-                Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikeAzul.png", UriKind.RelativeOrAbsolute))
+                Margin = new Thickness(5),
+                Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Like.png", UriKind.RelativeOrAbsolute))
             };
             //Quantidade de curtidas
             TextBlock newQuantidadeCurtida = new TextBlock()
             {
-                Text = postManager.buscarQuantidadeLike(i).ToString(),
+                Text = postManager.BuscarQuantidadeLike(i).ToString(),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 14
+                FontSize = 14,
+                Margin = new Thickness(5),
+                FontWeight = FontWeights.Bold
             };
             borderCurtir.MouseLeftButtonUp += (sender, e) => gridCurtir_Click(sender, e, i, borderCurtir, newIconeCurtir, newQuantidadeCurtida);
             borderCurtir.MouseEnter += (sender, e) => gridCurtir_MouseEnter(sender, e, i, borderCurtir);
@@ -289,7 +221,9 @@ namespace Posts
             //Borda do botão comentar
             Border borderComentar = new Border()
             {
-                Background = corPlano
+                Background = corPlano,
+                CornerRadius = new CornerRadius(5),
+                Margin = new Thickness(5)
             };
             borderComentar.Child = gridComentar;
             //Ícone comentar
@@ -299,16 +233,18 @@ namespace Posts
                 VerticalAlignment = VerticalAlignment.Center,
                 Height = 20,
                 Width = 20,
-                Margin = new Thickness(10),
+                Margin = new Thickness(5),
                 Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Comentario.png", UriKind.RelativeOrAbsolute))
             };
             //Quantidade de comentário
             TextBlock newQuantidadeComentario = new TextBlock()
             {
-                Text = postManager.buscarQuantidadeComentario(i).ToString(),
+                Text = postManager.BuscarQuantidadeComentario(i).ToString(),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
-                FontSize = 14
+                FontSize = 14,
+                Margin = new Thickness(5),
+                FontWeight = FontWeights.Bold
             };
             borderComentar.MouseLeftButtonUp += (sender, e) => borderComentar_Click(sender, e, i, gridPostCorpo, borderBotoes, borderCurtir);
             borderComentar.MouseEnter += (sender, e) => borderComentar_MouseEnter(sender, e, i, borderComentar);
@@ -324,7 +260,8 @@ namespace Posts
             Border borderRecomendar = new Border()
             {
                 Background = corPlano,
-                CornerRadius = new CornerRadius(0, 0, 5, 0)
+                CornerRadius = new CornerRadius(5),
+                Margin = new Thickness(5)
             };
             borderRecomendar.Child = gridRecomendar;
             //Texto recomendar
@@ -359,7 +296,7 @@ namespace Posts
                 VerticalAlignment = VerticalAlignment.Top,
                 FontSize = 14,
                 FontWeight = FontWeights.Bold,
-                Margin = new Thickness(5, 15, 0, 0)
+                Margin = new Thickness(5, 13, 0, 0)
             };
 
             //Cria a data e horário
@@ -368,26 +305,40 @@ namespace Posts
                 Text = postManager.BuscarData(i),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(5, -10, 0, 0)
+                Margin = new Thickness(5, -5, 0, 0)
             };
+
+            //Cria a lixeira
+            Image newLixeira = new Image()
+            {
+                Height = 16,
+                Width = 16,
+                Margin = new Thickness(0, 0, 10, 0),
+                Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Lixeira.png", UriKind.RelativeOrAbsolute))
+            };
+
+            //Funções da lixeira
+            newLixeira.MouseLeftButtonUp += (sender, e) => newLixeira_Click(sender, e, i);
+            newLixeira.MouseEnter += (sender, e) => newLixeira_MouseEnter(sender, e, i, newLixeira);
+            newLixeira.MouseLeave += (sender, e) => newLixeira_MouseLeave(sender, e, i, newLixeira);
+
 
             //Cria o titulo
             TextBlock newTitulo = new TextBlock()
             {
                 Text = postManager.BuscarTitulo(i),
-                HorizontalAlignment = HorizontalAlignment.Center,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 16,
                 Foreground = corPrincipal,
-                FontWeight= FontWeights.Bold,
-                Margin = new Thickness(0, 5, 0, 5)
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(20, 5, 0, 5)
             };
 
             //Cria o texto
             RichTextBox newTexto = new RichTextBox()
             {
                 FontSize = 14,
-                Margin = new Thickness(15, 5, 15, 5),
+                Margin = new Thickness(15, 5, 15, 15),
                 IsReadOnly = true,
                 Style = (Style)FindResource("RichTextBoxArredondado")
             };
@@ -400,7 +351,8 @@ namespace Posts
                 {
                     TextRange range = new TextRange(newTexto.Document.ContentStart, newTexto.Document.ContentEnd);
                     range.Load(stream, DataFormats.Xaml);
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     MessageBox.Show("Erro ao carregar o texto formatado: " + ex.Message);
                 }
@@ -412,24 +364,35 @@ namespace Posts
                 Source = new BitmapImage(new Uri(postManager.BuscarMidia(i), UriKind.RelativeOrAbsolute)),
                 MaxHeight = 150,
                 MaxWidth = 150,
-                Margin = new Thickness(0, 10, 0, 10)
+                Margin = new Thickness(0, 0, 0, 10)
             };
 
+            //Cria a sombra
+            DropShadowEffect dropShadowEffect = new DropShadowEffect()
+            {
+                BlurRadius = 3,
+                ShadowDepth = 0
+            };
             //Cria a borda arredondada
             Border border = new Border()
             {
+                Effect = dropShadowEffect,
                 Background = corPlano,
                 Margin = new Thickness(0, 10, 0, 0),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center,
-                BorderBrush = corPrincipal,
-                BorderThickness = new Thickness(1),
                 Child = gridPostCorpo
             };
 
             //Adiciona a borda no gridMensagens
             gridPosts.Children.Add(border);
+
+            //Verifica se o post é do usuário logado para mostrar ou não o botão de excluir post
+            if (!postManager.VerificarPostProprio(i, codUsuario))
+            {
+                newLixeira.Visibility = Visibility.Hidden;
+            }
 
             //Adiciona a foto e nome na gridAutor
             Grid.SetRow(newAutorFoto, 0);
@@ -439,9 +402,12 @@ namespace Posts
             Grid.SetColumn(newAutorNome, 1);
             Grid.SetRow(newDataHora, 1);
             Grid.SetColumn(newDataHora, 1);
+            Grid.SetRow(newLixeira, 0);
+            Grid.SetColumn(newLixeira, 2);
             gridAutor.Children.Add(newAutorFoto);
             gridAutor.Children.Add(newAutorNome);
             gridAutor.Children.Add(newDataHora);
+            gridAutor.Children.Add(newLixeira);
 
             //Adiciona os botões na gridBotoes
             Grid.SetColumn(borderCurtir, 0);
@@ -450,6 +416,20 @@ namespace Posts
             gridBotoes.Children.Add(borderCurtir);
             gridBotoes.Children.Add(borderComentar);
             gridBotoes.Children.Add(borderRecomendar);
+
+            //Verifica se tem conteúdo, se não tiver deixa o margin 0 para não criar espaço em branco
+            if (String.IsNullOrEmpty(newTitulo.Text))
+            {
+                newTitulo.Visibility = Visibility.Collapsed;
+            }
+            if (String.IsNullOrEmpty(new TextRange(newTexto.Document.ContentStart, newTexto.Document.ContentEnd).Text.Trim()))
+            {
+                newTexto.Visibility = Visibility.Collapsed;
+            }
+            if (String.IsNullOrEmpty(postManager.BuscarMidia(i)))
+            {
+                newMidia.Margin = new Thickness(0);
+            }
 
             //Adiciona tudo no gridPostCorpo
             Grid.SetRow(gridAutor, 0);
@@ -474,30 +454,30 @@ namespace Posts
         //Função do botão Curtir
         private void gridCurtir_Click(object sender, EventArgs e, int i, Border border, Image iconeCurtir, TextBlock quantidadeCurtida)
         {
-            if (!postManager.verificarUsuarioLike(i, codUsuario))
+            if (!postManager.VerificarUsuarioLike(i, codUsuario))
             {
                 postManager.AdicionarLike(i, codUsuario);
-                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikeAzulPreenchido.png", UriKind.RelativeOrAbsolute));
-                quantidadeCurtida.Text = postManager.buscarQuantidadeLike(i).ToString();
+                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikePreenchido.png", UriKind.RelativeOrAbsolute));
+                quantidadeCurtida.Text = postManager.BuscarQuantidadeLike(i).ToString();
             }
             else
             {
                 postManager.RemoverLike(i, codUsuario);
-                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikeAzul.png", UriKind.RelativeOrAbsolute));
-                quantidadeCurtida.Text = postManager.buscarQuantidadeLike(i).ToString();
+                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Like.png", UriKind.RelativeOrAbsolute));
+                quantidadeCurtida.Text = postManager.BuscarQuantidadeLike(i).ToString();
             }
         }
 
         //Altera a cor quando clica no like
         private void alterarCorBotaoLike(int i, Image iconeCurtir)
         {
-            if (postManager.verificarUsuarioLike(i, codUsuario))
+            if (postManager.VerificarUsuarioLike(i, codUsuario))
             {
-                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikeAzulPreenchido.png", UriKind.RelativeOrAbsolute));
+                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikePreenchido.png", UriKind.RelativeOrAbsolute));
             }
             else
             {
-                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\LikeAzul.png", UriKind.RelativeOrAbsolute));
+                iconeCurtir.Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Like.png", UriKind.RelativeOrAbsolute));
             }
         }
 
@@ -519,6 +499,7 @@ namespace Posts
             if (gridPostCorpo.Children.Count < 6)
             {
                 gridPostCorpo.RowDefinitions.Add(new RowDefinition());
+
                 Grid gridFormComentario = new Grid();
                 gridFormComentario.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
                 gridFormComentario.ColumnDefinitions.Add(new ColumnDefinition());
@@ -528,10 +509,10 @@ namespace Posts
                 {
                     HorizontalAlignment = HorizontalAlignment.Left,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Height = 45,
-                    Width = 45,
+                    Height = 40,
+                    Width = 40,
                     Stroke = Brushes.DarkGray,
-                    Margin = new Thickness(10),
+                    Margin = new Thickness(15, 10, 0, 10),
                     Fill = new ImageBrush(new BitmapImage(new Uri(usuarioManager.BuscarFoto(codUsuario))))
                 };
 
@@ -543,13 +524,13 @@ namespace Posts
                     FontSize = 14,
                     TextWrapping = TextWrapping.Wrap,
                     Margin = new Thickness(10, 10, 10, 10),
-                    Padding = new Thickness(5, 5, 30, 5),
+                    Padding = new Thickness(10, 10, 30, 10),
                     Style = (Style)Application.Current.Resources["TextBoxArredondado"]
                 };
 
                 Image newBotaoEnviarComentario = new Image()
                 {
-                    Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Enviar2.png", UriKind.RelativeOrAbsolute)),
+                    Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Enviar.png", UriKind.RelativeOrAbsolute)),
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Width = 25,
                     Height = 25,
@@ -570,16 +551,89 @@ namespace Posts
 
                 //Alterações
                 borderBotoes.BorderThickness = new Thickness(0, 1, 0, 1);
-                borderCurtir.CornerRadius = new CornerRadius(0);
+
+                int posicao = 6;
+                for (int j = postManager.BuscarQuantidadeComentario(i) - 1; j >= 0; j--)
+                {
+                    criarComentario(i, gridPostCorpo, j, posicao);
+                    posicao++;
+                }
             }
             else
             {
-                gridPostCorpo.Children.RemoveAt(gridPostCorpo.Children.Count - 1);
-
+                for (int j = gridPostCorpo.Children.Count; j > 5; j--)
+                {
+                    gridPostCorpo.Children.RemoveAt(gridPostCorpo.Children.Count - 1);
+                }
                 //Desalterações
                 borderBotoes.BorderThickness = new Thickness(0, 1, 0, 0);
-                borderCurtir.CornerRadius = new CornerRadius(0, 0, 0, 5);
             }
+        }
+
+        public void criarComentario(int i, Grid gridPostCorpo, int j, int posicao)
+        {
+            gridPostCorpo.RowDefinitions.Add(new RowDefinition());
+
+            Grid gridComentario = new Grid();
+            gridComentario.ColumnDefinitions.Add(new ColumnDefinition() { Width = GridLength.Auto });
+            gridComentario.ColumnDefinitions.Add(new ColumnDefinition());
+
+            Grid gridConteudoComentario = new Grid();
+            gridConteudoComentario.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            gridConteudoComentario.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            Ellipse newAutorFoto = new Ellipse()
+            {
+                Height = 40,
+                Width = 40,
+                Stroke = Brushes.DarkGray,
+                Margin = new Thickness(15, 10, 5, 20),
+                Fill = new ImageBrush(new BitmapImage(new Uri(usuarioManager.BuscarFoto(postManager.BuscarUsuarioComentario(i, j)))))
+            };
+
+            Border newBorderComentario = new Border()
+            {
+                Background = corFundo,
+                CornerRadius = new CornerRadius(10),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Stretch,
+                Margin = new Thickness(5, 0, 10, 10),
+                Child = gridConteudoComentario
+            };
+
+            TextBlock newAutorNome = new TextBlock()
+            {
+                Text = usuarioManager.BuscarNome(postManager.BuscarUsuarioComentario(i, j)),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 12,
+                FontWeight = FontWeights.Bold,
+                Margin = new Thickness(15, 10, 15, 0)
+            };
+
+            TextBlock newComentario = new TextBlock()
+            {
+                Text = postManager.BuscarComentario(i, j),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 14,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(15, 5, 15, 10)
+            };
+
+            Grid.SetRow(newAutorNome, 0);
+            Grid.SetRow(newComentario, 1);
+            gridConteudoComentario.Children.Add(newAutorNome);
+            gridConteudoComentario.Children.Add(newComentario);
+
+            Grid.SetColumn(newAutorFoto, 0);
+            Grid.SetColumn(newBorderComentario, 1);
+            gridComentario.Children.Add(newAutorFoto);
+            gridComentario.Children.Add(newBorderComentario);
+
+            Grid.SetRow(gridComentario, posicao);
+            gridPostCorpo.Children.Add(gridComentario);
+
         }
 
         //Altera cor quando passa o mouse no Comentar
@@ -603,7 +657,7 @@ namespace Posts
         //Altera cor quando tira o mouse do Recomendar
         private void borderRecomendar_MouseLeave(object sender, MouseEventArgs e, int i, Border borderRecomendar)
         {
-            borderRecomendar.Background= corPlano;
+            borderRecomendar.Background = corPlano;
         }
 
         //Apagar a label "Texto" quando digitar
@@ -632,6 +686,26 @@ namespace Posts
             {
                 labelTexto.Visibility = Visibility.Hidden;
             }
+        }
+
+        //Excluir post
+        private void newLixeira_Click(object sender, EventArgs e, int i)
+        {
+            postManager.ExcluirPost(i);
+            atualizarPagina(exibicaoPost);
+        }
+
+        //Altera cor quando passa o mouse na Lixeira
+        private void newLixeira_MouseEnter(object sender, MouseEventArgs e, int i, Image newLixeira)
+        {
+            newLixeira.Width = 17;
+            newLixeira.Height = 17;
+        }
+
+        private void newLixeira_MouseLeave(object sender, MouseEventArgs e, int i, Image newLixeira)
+        {
+            newLixeira.Width = 16;
+            newLixeira.Height = 16;
         }
 
         //Botão para postar o post
@@ -664,18 +738,7 @@ namespace Posts
                 removerPrevia(); //Remove a prévia da foto após postar
             }
 
-            if (exibicaoPost == "proprio")
-            {
-                atualizarPaginaPostProprio();
-            }
-            else if (exibicaoPost == "amigos")
-            {
-                atualizarPaginaPostAmigos();
-            }
-            else
-            {
-                atualizarPaginaPostGeral();
-            }
+            atualizarPagina(exibicaoPost);
         }
 
         //Permite selecionar uma foto para a postagem
@@ -751,6 +814,7 @@ namespace Posts
             exibicaoPost = "geral";
         }
 
+        //Altera a cor dos botões Seus, Amigos, Todos
         private void alterarCorBotaoPost(Button botaoPost)
         {
             botaoPostProprio.Background = corPrincipal;
@@ -768,26 +832,6 @@ namespace Posts
         private void exibirFotoPerfil()
         {
             postFormFoto.Fill = new ImageBrush(new BitmapImage(new Uri(usuarioManager.BuscarFoto(codUsuario))));
-        }
-
-        private void botaoAdicionarFoto_MouseEnter(object sender, MouseEventArgs e)
-        {
-            botaoAdicionarFoto.Background = corFundo;
-        }
-
-        private void botaoAdicionarFoto_MouseLeave(object sender, MouseEventArgs e)
-        {
-            botaoAdicionarFoto.Background = corPlano;
-        }
-
-        private void botaoPostar_MouseEnter(object sender, MouseEventArgs e)
-        {
-            botaoPostar.Background = corSecundaria;
-        }
-
-        private void botaoPostar_MouseLeave(object sender, MouseEventArgs e)
-        {
-            botaoPostar.Background = corPrincipal;
         }
 
         private void botaoPostProprio_MouseEnter(object sender, MouseEventArgs e)

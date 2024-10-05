@@ -55,7 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Usuario.cs" />
+    <Compile Include="Models\Teste.cs" />
+    <Compile Include="Models\Usuario.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,7 +71,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Post.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,14 +123,13 @@
     <Resource Include="Icones\Comentario.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icones\Lixeira.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="Icones\Enviar.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icones\Enviar2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icones\LikeAzul.png" />
-    <Resource Include="Icones\LikeAzulPreenchido.png" />
+    <Resource Include="Icones\LikePreenchido.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
