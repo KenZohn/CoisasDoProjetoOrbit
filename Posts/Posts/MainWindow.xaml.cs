@@ -28,10 +28,7 @@ namespace Posts
 
     /*
     Para fazer:
-    Adicionar botão para remover a foto prévia
-    Posts Amigos é para mostrar só dos amigos ou o próprio também?
-    Criar Label "Comente algo" no campo comentário
-    Perguntar se realmente deseja excluir o post
+    Personalizar o MessageBox de exclusão de post, comentário e post vazio
     */
     public partial class MainWindow : Window
     {
@@ -66,6 +63,7 @@ namespace Posts
             teste.AdicionarPost();
             teste.AdicionarLike();
             teste.AdicionarComentario();
+            teste.AdicionarRecomendar();
 
             //Instância das cores
             corFundo = new SolidColorBrush(Color.FromRgb(240, 240, 250));
@@ -74,7 +72,7 @@ namespace Posts
             corPlano = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             corLinha = new SolidColorBrush(Color.FromRgb(200, 200, 200));
 
-            atualizarPaginaPostProprio();
+            atualizarPagina(exibicaoPost);
             exibirFotoPerfil();
 
             botaoPostProprio.Background = corPlano;
@@ -87,14 +85,17 @@ namespace Posts
             if (exibicaoPost == "proprio")
             {
                 atualizarPaginaPostProprio();
+                alterarCorBotaoPost(botaoPostProprio);
             }
             else if (exibicaoPost == "amigos")
             {
                 atualizarPaginaPostAmigos();
+                alterarCorBotaoPost(botaoPostAmigos);
             }
             else
             {
                 atualizarPaginaPostGeral();
+                alterarCorBotaoPost(botaoPostGeral);
             }
         }
 
@@ -119,7 +120,8 @@ namespace Posts
 
             for (int i = postManager.BuscarQuantidade() - 1; i >= 0; i--)
             {
-                if (usuarioManager.VerificarCodAmigo(codUsuario, postManager.BuscarRemetente(i)))
+                if (usuarioManager.VerificarCodAmigo(codUsuario, postManager.BuscarRemetente(i))
+                    || postManager.BuscarListaRecomendador(i).Cast<object>().Any(item => usuarioManager.BuscarListaAmigos(codUsuario).Contains(item)))
                 {
                     publicarPost(i);
                 }
@@ -203,7 +205,7 @@ namespace Posts
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14,
-                Margin = new Thickness(5),
+                Margin = new Thickness(10, 5, 5, 5),
                 FontWeight = FontWeights.Bold
             };
             borderCurtir.MouseLeftButtonUp += (sender, e) => gridCurtir_Click(sender, e, i, borderCurtir, newIconeCurtir, newQuantidadeCurtida);
@@ -243,12 +245,14 @@ namespace Posts
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14,
-                Margin = new Thickness(5),
+                Margin = new Thickness(10, 5, 5, 5),
                 FontWeight = FontWeights.Bold
             };
-            borderComentar.MouseLeftButtonUp += (sender, e) => borderComentar_Click(sender, e, i, gridPostCorpo, borderBotoes, borderCurtir);
+
+            borderComentar.MouseLeftButtonUp += (sender, e) => borderComentar_Click(sender, e, i, gridPostCorpo, borderBotoes, borderCurtir, newQuantidadeComentario);
             borderComentar.MouseEnter += (sender, e) => borderComentar_MouseEnter(sender, e, i, borderComentar);
             borderComentar.MouseLeave += (sender, e) => borderComentar_MouseLeave(sender, e, i, borderComentar);
+
             Grid.SetColumn(newIconeComentar, 0);
             Grid.SetColumn(newQuantidadeComentario, 1);
             gridComentar.Children.Add(newIconeComentar);
@@ -270,10 +274,13 @@ namespace Posts
                 Text = "Recomendar",
                 VerticalAlignment = VerticalAlignment.Center,
                 HorizontalAlignment = HorizontalAlignment.Center,
-                FontSize = 14
+                FontSize = 14,
             };
+
+            borderRecomendar.MouseLeftButtonUp += (sender, e) => borderRecomendar_Click(sender, e, i, newRecomendar);
             borderRecomendar.MouseEnter += (sender, e) => borderRecomendar_MouseEnter(sender, e, i, borderRecomendar);
             borderRecomendar.MouseLeave += (sender, e) => borderRecomendar_MouseLeave(sender, e, i, borderRecomendar);
+
             gridRecomendar.Children.Add(newRecomendar);
 
             //Cria a foto do autor
@@ -321,7 +328,6 @@ namespace Posts
             newLixeira.MouseLeftButtonUp += (sender, e) => newLixeira_Click(sender, e, i);
             newLixeira.MouseEnter += (sender, e) => newLixeira_MouseEnter(sender, e, i, newLixeira);
             newLixeira.MouseLeave += (sender, e) => newLixeira_MouseLeave(sender, e, i, newLixeira);
-
 
             //Cria o titulo
             TextBlock newTitulo = new TextBlock()
@@ -447,8 +453,23 @@ namespace Posts
             Grid.SetRow(border, gridPosts.RowDefinitions.Count - 1);
             Grid.SetColumn(border, 0);
 
-            //Altera a cor do botão do like
+            //Altera a cor do botão do like se já deu like
             alterarCorBotaoLike(i, newIconeCurtir);
+
+            //Altera texto do botão recomendar para Recomendado caso já tenha sido recomendado
+            alterarTextoBotaoRecomendar(i, newRecomendar);
+
+            //Adiciona nome do recomendador caso tenha sido recomendado por um amigo lindo
+            adicionarRecomendadorNoPost(i, newAutorNome);
+        }
+
+        //
+        private void adicionarRecomendadorNoPost(int i, TextBlock newAutorNome)
+        {
+            if (postManager.BuscarListaRecomendador(i).Cast<object>().Any(item => usuarioManager.BuscarListaAmigos(codUsuario).Contains(item)))
+            {
+                newAutorNome.Text += $" (recomendado por {usuarioManager.BuscarNome(postManager.BuscarRecomendador(i, 0))})";
+            }
         }
 
         //Função do botão Curtir
@@ -481,6 +502,20 @@ namespace Posts
             }
         }
 
+        //Altera texto do botão recomendar para Recomendado caso já tenha sido recomendado
+        private void alterarTextoBotaoRecomendar(int i, TextBlock newRecomendar)
+        {
+            if (postManager.VerificarRecomendador(i, codUsuario)){
+                newRecomendar.FontWeight = FontWeights.Bold;
+                newRecomendar.Text = "Recomendado!";
+            }
+            else
+            {
+                newRecomendar.FontWeight = FontWeights.Normal;
+                newRecomendar.Text = "Recomendar";
+            }
+        }
+
         //Altera cor quando passa o mouse no like
         private void gridCurtir_MouseEnter(object sender, EventArgs e, int i, Border border)
         {
@@ -494,7 +529,7 @@ namespace Posts
         }
 
         //Função do botão comentário. Abre o campo para comentar e mostra outros comentários.
-        private void borderComentar_Click(Object sender, EventArgs e, int i, Grid gridPostCorpo, Border borderBotoes, Border borderCurtir)
+        private void borderComentar_Click(Object sender, EventArgs e, int i, Grid gridPostCorpo, Border borderBotoes, Border borderCurtir, TextBlock newQuantidadeComentario)
         {
             if (gridPostCorpo.Children.Count < 6)
             {
@@ -516,6 +551,17 @@ namespace Posts
                     Fill = new ImageBrush(new BitmapImage(new Uri(usuarioManager.BuscarFoto(codUsuario))))
                 };
 
+                Label newlabelComentario = new Label()
+                {
+                    Content = "Comentário . . .",
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    FontSize = 14,
+                    Opacity = 0.4,
+                    Margin = new Thickness(20, 0, 0, 0),
+                    IsHitTestVisible = false
+                };
+
                 TextBox newCampoComentario = new TextBox()
                 {
                     HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -528,6 +574,9 @@ namespace Posts
                     Style = (Style)Application.Current.Resources["TextBoxArredondado"]
                 };
 
+                //Adicionar função click para enviar com enter
+                newCampoComentario.TextChanged += (senderComentario, eComentario) => newCampoComentario_TextChanged(senderComentario, eComentario, i, newCampoComentario, newlabelComentario);
+
                 Image newBotaoEnviarComentario = new Image()
                 {
                     Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Enviar.png", UriKind.RelativeOrAbsolute)),
@@ -537,11 +586,17 @@ namespace Posts
                     Margin = new Thickness(0, 0, 15, 0)
                 };
 
+                newBotaoEnviarComentario.MouseLeftButtonUp += (senderComentario, eComentario) => newBotaoEnviarComentario_Click(senderComentario, eComentario, i, codUsuario, newCampoComentario, gridPostCorpo, newQuantidadeComentario);
+                newBotaoEnviarComentario.MouseEnter += (senderComentario, eComentario) => newBotaoEnviarComentario_MouseEnter(senderComentario, eComentario, newBotaoEnviarComentario);
+                newBotaoEnviarComentario.MouseLeave += (senderComentario, eComentario) => newBotaoEnviarComentario_MouseLeave(senderComentario, eComentario, newBotaoEnviarComentario);
+
                 Grid.SetColumn(newAutorFoto, 0);
                 Grid.SetColumn(newCampoComentario, 1);
+                Grid.SetColumn(newlabelComentario, 1);
                 Grid.SetColumn(newBotaoEnviarComentario, 1);
                 gridFormComentario.Children.Add(newAutorFoto);
                 gridFormComentario.Children.Add(newCampoComentario);
+                gridFormComentario.Children.Add(newlabelComentario);
                 gridFormComentario.Children.Add(newBotaoEnviarComentario);
 
                 Grid.SetRow(gridFormComentario, 5);
@@ -648,6 +703,23 @@ namespace Posts
             borderComentar.Background = corPlano;
         }
 
+        //Função do botão recomendar
+        private void borderRecomendar_Click(object sender, EventArgs e, int i, TextBlock newRecomendar)
+        {
+            if (!postManager.VerificarRecomendador(i, codUsuario))
+            {
+                postManager.AdicionarRecomendador(i, codUsuario);
+                newRecomendar.FontWeight = FontWeights.Bold;
+                newRecomendar.Text = "Recomendado!";
+            }
+            else
+            {
+                postManager.RemoverRecomendador(i, codUsuario);
+                newRecomendar.FontWeight = FontWeights.Normal;
+                newRecomendar.Text = "Recomendar";
+            }
+        }
+
         //Altera cor quando passa o mouse no Recomendar
         private void borderRecomendar_MouseEnter(object sender, MouseEventArgs e, int i, Border borderRecomendar)
         {
@@ -691,21 +763,77 @@ namespace Posts
         //Excluir post
         private void newLixeira_Click(object sender, EventArgs e, int i)
         {
-            postManager.ExcluirPost(i);
-            atualizarPagina(exibicaoPost);
+            MessageBoxResult result = MessageBox.Show("Deseja excluir o post?", "Excluir post", MessageBoxButton.YesNo);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                postManager.ExcluirPost(i);
+                atualizarPagina(exibicaoPost);
+            }
         }
 
         //Altera cor quando passa o mouse na Lixeira
         private void newLixeira_MouseEnter(object sender, MouseEventArgs e, int i, Image newLixeira)
         {
-            newLixeira.Width = 17;
-            newLixeira.Height = 17;
+            newLixeira.Width = 18;
+            newLixeira.Height = 18;
         }
 
         private void newLixeira_MouseLeave(object sender, MouseEventArgs e, int i, Image newLixeira)
         {
             newLixeira.Width = 16;
             newLixeira.Height = 16;
+        }
+
+        //Apaga ou mostra a label do campo comentário
+        private void newCampoComentario_TextChanged(object sender, TextChangedEventArgs e, int i, TextBox newCampoComentario, Label labelComentario)
+        {
+            if (String.IsNullOrEmpty(newCampoComentario.Text))
+            {
+                labelComentario.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                labelComentario.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void newBotaoEnviarComentario_Click(object sender, EventArgs e, int i, int codUsuario, TextBox newCampoComentario, Grid gridPostCorpo, TextBlock newQuantidadeComentario)
+        {
+            if (!String.IsNullOrEmpty(newCampoComentario.Text))
+            {
+                postManager.AdicionarComentario(i, codUsuario, newCampoComentario.Text);
+                newCampoComentario.Clear();
+
+                for (int j = gridPostCorpo.Children.Count; j > 6; j--)
+                {
+                    gridPostCorpo.Children.RemoveAt(gridPostCorpo.Children.Count - 1);
+                }
+
+                int posicao = 6;
+                for (int j = postManager.BuscarQuantidadeComentario(i) - 1; j >= 0; j--)
+                {
+                    criarComentario(i, gridPostCorpo, j, posicao);
+                    posicao++;
+                    newQuantidadeComentario.Text = postManager.BuscarQuantidadeComentario(i).ToString();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Escreva algum comentário.");
+            }
+        }
+
+        private void newBotaoEnviarComentario_MouseEnter(object sender, MouseEventArgs e, Image newBotaoEnviarComentario)
+        {
+            newBotaoEnviarComentario.Width = 27;
+            newBotaoEnviarComentario.Height = 27;
+        }
+
+        private void newBotaoEnviarComentario_MouseLeave(object sender, MouseEventArgs e, Image newBotaoEnviarComentario)
+        {
+            newBotaoEnviarComentario.Width = 25;
+            newBotaoEnviarComentario.Height = 25;
         }
 
         //Botão para postar o post
@@ -735,31 +863,24 @@ namespace Posts
                 campoTitulo.Clear();
                 campoTexto.Document.Blocks.Clear();
                 enderecoMidia = "";
+                if (exibicaoPost == "amigos") exibicaoPost = "proprio";
                 removerPrevia(); //Remove a prévia da foto após postar
+                atualizarPagina(exibicaoPost);
             }
-
-            atualizarPagina(exibicaoPost);
         }
 
         //Permite selecionar uma foto para a postagem
         private void botaoAdicionarFoto_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (enderecoMidia == "")
-            {
-                OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
 
-                if (openFileDialog.ShowDialog() == true)
-                {
-                    enderecoMidia = openFileDialog.FileName;
-                    previaFoto();
-                }
-            }
-            else
+            if (openFileDialog.ShowDialog() == true)
             {
-                enderecoMidia = "";
                 removerPrevia();
+                enderecoMidia = openFileDialog.FileName;
+                previaFoto();
             }
         }
 
@@ -778,6 +899,8 @@ namespace Posts
             Grid.SetColumn(newMidia, 0);
             Grid.SetColumnSpan(newMidia, 4);
             gridFormPost.Children.Add(newMidia);
+
+            adicionarBotaoExcluirFoto(newMidia);
         }
 
         //Remove a prévia da foto
@@ -790,28 +913,50 @@ namespace Posts
             }
         }
 
+        private void adicionarBotaoExcluirFoto(Image newMidia)
+        {
+            Image iconeExcluirFoto = new Image()
+            {
+                Source = new BitmapImage(new Uri(projectPath + "\\Icones\\Fechar.png", UriKind.RelativeOrAbsolute)),
+                MaxHeight = 30,
+                MaxWidth = 30,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Right,
+                Margin = new Thickness(0, 5, 10, 0)
+            };
+
+            iconeExcluirFoto.MouseLeftButtonUp += (sender, e) => iconeExcluirFoto_Click(sender, e, newMidia);
+
+            Grid.SetRow(iconeExcluirFoto, 2);
+            Grid.SetColumn(iconeExcluirFoto, 3);
+            gridFormPost.Children.Add(iconeExcluirFoto);
+        }
+
+        private void iconeExcluirFoto_Click(object sender, EventArgs e, Image newMidia)
+        {
+            enderecoMidia = "";
+            removerPrevia();
+        }
+
         //Mostrar postagens próprias
         private void botaoPostProprio_Click(object sender, RoutedEventArgs e)
         {
-            atualizarPaginaPostProprio();
-            alterarCorBotaoPost(botaoPostProprio);
             exibicaoPost = "proprio";
+            atualizarPagina(exibicaoPost);
         }
 
         //Mostrar postagens dos amigos
         private void botaoPostAmigos_Click(object sender, RoutedEventArgs e)
         {
-            atualizarPaginaPostAmigos();
-            alterarCorBotaoPost(botaoPostAmigos);
             exibicaoPost = "amigos";
+            atualizarPagina(exibicaoPost);
         }
 
         //Mostrar postagens de todos
         private void botaoPostGeral_Click(object sender, RoutedEventArgs e)
         {
-            atualizarPaginaPostGeral();
-            alterarCorBotaoPost(botaoPostGeral);
             exibicaoPost = "geral";
+            atualizarPagina(exibicaoPost);
         }
 
         //Altera a cor dos botões Seus, Amigos, Todos

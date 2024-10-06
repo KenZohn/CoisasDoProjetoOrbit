@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Comentario.cs" />
     <Compile Include="Models\Teste.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Page Include="MainWindow.xaml">
@@ -130,6 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icones\LikePreenchido.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icones\Fechar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

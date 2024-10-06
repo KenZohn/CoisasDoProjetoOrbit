@@ -17,10 +17,10 @@ namespace Posts.Models
         string projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
         public void AdicionarUsuario()
         {
-            usuarioManager.ArmazenarUsuario(0, "Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
-            usuarioManager.ArmazenarUsuario(1, "Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
-            usuarioManager.ArmazenarUsuario(2, "Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
-            usuarioManager.ArmazenarUsuario(3, "Luigi", projectPath + "\\Imagens\\Luigi.png");
+            usuarioManager.AdicionarUsuario("Johnny Mukai", projectPath + "\\Imagens\\Pukki.jpg");
+            usuarioManager.AdicionarUsuario("Satoru Gojo", projectPath + "\\Imagens\\Gojo.jpg");
+            usuarioManager.AdicionarUsuario("Jennifer Lawrence", projectPath + "\\Imagens\\Jennifer.jpeg");
+            usuarioManager.AdicionarUsuario("Luigi", projectPath + "\\Imagens\\Luigi.png");
         }
 
         public void AdicionarAmigo(int codUsuario)
@@ -44,6 +44,7 @@ namespace Posts.Models
             postManager.AdicionarLike(0, 3);
             postManager.AdicionarLike(0, 4);
             postManager.AdicionarLike(1, 4);
+            postManager.AdicionarLike(4, 2);
         }
 
         public void AdicionarComentario()
@@ -51,6 +52,11 @@ namespace Posts.Models
             postManager.AdicionarComentario(2, 1, "Comentário legal!");
             postManager.AdicionarComentario(2, 2, "Comentário legal 2!");
             postManager.AdicionarComentario(5, 0, "UHUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+        }
+
+        public void AdicionarRecomendar()
+        {
+            postManager.AdicionarRecomendador(4, 2);
         }
 
         public string FormatarTextoPost(string texto)

@@ -69,6 +69,7 @@
         <!--Botão postar: arredondada e altera a cor ao passar o mouse-->
         <Style x:Key="BotaoPostar" TargetType="Button">
             <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="Foreground" Value="#F0F0FA"/>
             <Setter Property="Background" Value="#37376E"/>
             <Setter Property="Template">

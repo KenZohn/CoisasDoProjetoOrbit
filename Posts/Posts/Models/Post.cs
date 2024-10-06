@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Posts.Models;
 
 namespace Posts
 {
@@ -15,7 +16,8 @@ namespace Posts
         public string Midia { get; set; }
         public string Data { get; set; }
         public ArrayList Like { get; set; } = new ArrayList();
-        public Dictionary<int, string> Comentario { get; set; } = new Dictionary<int, string>();
+        public List<Comentario> Comentarios { get; set; } = new List<Comentario>();
+        public ArrayList Recomendador { get; set; } = new ArrayList();
     }
 
     public class PostManager
@@ -106,22 +108,47 @@ namespace Posts
 
         public void AdicionarComentario(int i, int codUsuario, string comentario)
         {
-            posts[i].Comentario.Add(codUsuario, comentario);
+            posts[i].Comentarios.Add(new Comentario(codUsuario, comentario));
         }
 
         public int BuscarQuantidadeComentario(int i)
         {
-            return posts[i].Comentario.Count;
+            return posts[i].Comentarios.Count;
         }
 
         public string BuscarComentario(int i, int codComentario)
         {
-            return posts[i].Comentario.ElementAt(codComentario).Value;
+            return posts[i].Comentarios.ElementAt(codComentario).Conteudo;
         }
 
         public int BuscarUsuarioComentario(int i, int codComentario)
         {
-            return posts[i].Comentario.ElementAt(codComentario).Key;
+            return posts[i].Comentarios.ElementAt(codComentario).Remetente;
+        }
+
+        public void AdicionarRecomendador(int i, int codUsuario)
+        {
+            posts[i].Recomendador.Add(codUsuario);
+        }
+
+        public void RemoverRecomendador(int i, int codUsuario)
+        {
+            posts[i].Recomendador.Remove(codUsuario);
+        }
+
+        public int BuscarRecomendador(int i, int j)
+        {
+            return (int)posts[i].Recomendador[j];
+        }
+
+        public ArrayList BuscarListaRecomendador(int i)
+        {
+            return posts[i].Recomendador;
+        }
+
+        public bool VerificarRecomendador(int i, int codUsuario)
+        {
+            return posts[i].Recomendador.Contains(codUsuario);
         }
     }
 }
