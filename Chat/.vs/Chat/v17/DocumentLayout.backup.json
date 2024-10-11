@@ -7,16 +7,16 @@
       "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\chat\\models\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\chat\\chat\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\chat\\chat\\models\\lista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\lista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\chat\\chat\\pagecartaochat.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\pagecartaochat.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\chat\\models\\chatmensagens.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\chatmensagens.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\chat\\chat\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,40 +35,37 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Lista.cs",
-              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Lista.cs",
-              "RelativeDocumentMoniker": "Chat\\Models\\Lista.cs",
-              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Lista.cs",
-              "RelativeToolTip": "Chat\\Models\\Lista.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T01:57:14.964Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Node.cs",
-              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Node.cs",
-              "RelativeDocumentMoniker": "Chat\\Models\\Node.cs",
-              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Node.cs",
-              "RelativeToolTip": "Chat\\Models\\Node.cs",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAYwCIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T01:51:10.938Z",
+              "Title": "PageCartaoChat.xaml",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\PageCartaoChat.xaml",
+              "RelativeDocumentMoniker": "Chat\\PageCartaoChat.xaml",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\PageCartaoChat.xaml",
+              "RelativeToolTip": "Chat\\PageCartaoChat.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-11T02:42:32.392Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ChatMensagens.cs",
-              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\ChatMensagens.cs",
-              "RelativeDocumentMoniker": "Chat\\Models\\ChatMensagens.cs",
-              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\ChatMensagens.cs",
-              "RelativeToolTip": "Chat\\Models\\ChatMensagens.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAuwBUAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-10T01:44:54.686Z",
+              "Title": "App.xaml",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\App.xaml",
+              "RelativeDocumentMoniker": "Chat\\App.xaml",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\App.xaml",
+              "RelativeToolTip": "Chat\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-11T02:22:41.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Chat\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\MainWindow.xaml",
+              "RelativeToolTip": "Chat\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-11T01:18:17.504Z",
               "EditorCaption": ""
             },
             {
@@ -79,7 +76,7 @@
               "RelativeDocumentMoniker": "Chat\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\MainWindow.xaml.cs",
               "RelativeToolTip": "Chat\\MainWindow.xaml.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAAQwDgAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAADUAAAAAAAAAAAAAwEUAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T01:45:57.634Z",
               "EditorCaption": ""

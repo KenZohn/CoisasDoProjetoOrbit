@@ -9,7 +9,7 @@ namespace Chat.Models
     public class Node
     {
         //private int x;
-        private Node prox;
+        private Node Prox;
         private int Remetente;
         private int Destinatario;
         private string Conteudo;
@@ -20,17 +20,17 @@ namespace Chat.Models
             Destinatario = destinatario;
             Conteudo = conteudo;
             Horario = horario;
-            prox = null;
+            Prox = null;
         }
 
-        public void setProx(Node px)
+        public void setProx(Node prox)
         {
-            prox = px;
+            Prox = prox;
         }
 
         public Node getProx()
         {
-            return prox;
+            return Prox;
         }
 
         public int getRemetente()

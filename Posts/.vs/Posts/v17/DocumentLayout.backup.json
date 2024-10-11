@@ -3,16 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\posts\\posts\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\posts\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
       "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\posts\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\posts\\posts\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,23 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "App.xaml",
-              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\App.xaml",
-              "RelativeDocumentMoniker": "Posts\\App.xaml",
-              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\App.xaml",
-              "RelativeToolTip": "Posts\\App.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-10-11T02:17:04.267Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -48,7 +32,7 @@
               "RelativeDocumentMoniker": "Posts\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\MainWindow.xaml.cs",
               "RelativeToolTip": "Posts\\MainWindow.xaml.cs",
-              "ViewState": "AgIAANACAAAAAAAAAAAvwOQCAAANAAAAAAAAAA==",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAwDgAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-10T01:46:35.284Z",
               "EditorCaption": ""

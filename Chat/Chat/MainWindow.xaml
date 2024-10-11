@@ -6,11 +6,14 @@
         xmlns:local="clr-namespace:Chat"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1280"
-        WindowStartupLocation="CenterScreen">
-    <Grid x:Name="gridPrincipal" Background="#FF343434">
-        <Border Background="#FF292929" CornerRadius="5" HorizontalAlignment="Left" Width="400" Margin="350,15,0,15">
-            <Grid x:Name="gridAmigos">
-            </Grid>
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+    <Grid x:Name="gridPrincipal" Background="#F0F0FA">
+        <Border Background="#FFFFFF" CornerRadius="5" HorizontalAlignment="Left" Width="350" Margin="352,17,0,13">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
+            </Border.Effect>
+            <StackPanel x:Name="panelAmigos" VerticalAlignment="Top"/>
         </Border>
         <TextBox x:Name="campoMensagem2" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Margin="20,0,0,20" TextWrapping="Wrap" Height="25" Width="150"/>
         <Button x:Name="botaoEnviar2" Content=">" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" Margin="190,0,0,20" Height="25" Width="25" Click="botaoEnviar2_Click">
@@ -20,11 +23,14 @@
                 </Style>
             </Button.Resources>
         </Button>
-        <Border Background="#FF292929" CornerRadius="5" HorizontalAlignment="Right" Width="500" Margin="0,15,15,15">
+        <Border Background="#FFFFFF" CornerRadius="5" HorizontalAlignment="Right" Width="500" Margin="0,15,15,15">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="3" ShadowDepth="0"/>
+            </Border.Effect>
             <Grid x:Name="gridChat">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <ScrollViewer x:Name="scrollChat" ScrollChanged="scrollChat_ScrollChanged">
                     <Grid x:Name="gridMensagens" Grid.Row="0">
@@ -33,23 +39,24 @@
                         </Grid.RowDefinitions>
                     </Grid>
                 </ScrollViewer>
-                <Grid Grid.Row="1" VerticalAlignment="Bottom" Height="40">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="35"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBox x:Name="campoMensagem" Grid.Column="0" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="10,0,0,0" TextWrapping="Wrap" Height="25" KeyDown="campoMensagem_KeyDown"/>
-                    <Button x:Name="botaoEnviar" Content=">" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,0" Height="25" Width="25" Click="botaoEnviar_Click">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="3"/>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
+                <Border Grid.Row="1" BorderBrush="#37376E" BorderThickness="0, 1, 0, 0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="35"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="campoMensagem" Grid.Column="0" VerticalAlignment="Stretch" VerticalContentAlignment="Center" MinHeight="35" Margin="10,5,0,5" Padding="5" FontSize="14" TextWrapping="Wrap" BorderThickness="0" KeyDown="campoMensagem_KeyDown" TextChanged="campoMensagem_TextChanged"/>
+                        <Label x:Name="labelMensagem" Content="Mensagem" Grid.Column="0" VerticalAlignment="Center" Margin="12,0,0,0" Foreground="#66000000" FontSize="14" IsHitTestVisible="False"/>
+                        <Button x:Name="botaoEnviar" Content=">" Grid.Column="1" VerticalAlignment="Center" VerticalContentAlignment="Center" Margin="0,0,0,0" Height="25" Width="25" Click="botaoEnviar_Click">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="3"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
-        <Button x:Name="botaoAmigo2" Content="Gojo" HorizontalAlignment="Left" Margin="100,536,0,0" VerticalAlignment="Top" Height="35" Width="62" Click="botaoAmigo2_Click"/>
-        <Button x:Name="botaoAmigo3" Content="Maria" HorizontalAlignment="Left" Margin="100,464,0,0" VerticalAlignment="Top" Click="botaoAmigo3_Click" Height="35" Width="62"/>
     </Grid>
 </Window>

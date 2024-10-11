@@ -46,6 +46,13 @@ namespace Chat
         int codUsuarioAmigo;
         string projectPath;
 
+        //Cores
+        SolidColorBrush corFundo;
+        SolidColorBrush corPrincipal;
+        SolidColorBrush corSecundaria;
+        SolidColorBrush corPlano;
+        SolidColorBrush corLinha;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,27 +61,34 @@ namespace Chat
 
             //Atribuições de teste
             codUsuario = 0; //Código do usuário logado
-            codUsuarioAmigo = 2;
+            codUsuarioAmigo = 1;
 
-            perfilManager.ArmazenarPerfil(0, "Johnny", projectPath + "\\Imagens\\Gojo.png");
-            perfilManager.ArmazenarPerfil(1, "Gojo", projectPath + "\\Imagens\\Gojo.png");
-            perfilManager.ArmazenarPerfil(2, "Roger", projectPath + "\\Imagens\\Roger.png");
+            perfilManager.AdicionarPerfil("Johnny Bravo", projectPath + "\\Imagens\\Gojo.png");
+            perfilManager.AdicionarPerfil("Gojo Satorino", projectPath + "\\Imagens\\Gojo.png");
+            perfilManager.AdicionarPerfil("Roger Joker", projectPath + "\\Imagens\\Roger.png");
+            perfilManager.AdicionarPerfil("Maria Maria", projectPath + "\\Imagens\\Roger.png");
+            perfilManager.AdicionarPerfil("Luiza Maria", projectPath + "\\Imagens\\Johnny.png");
 
             perfilManager.AdicionarAmigo(0, 1);
             perfilManager.AdicionarAmigo(0, 2);
+            perfilManager.AdicionarAmigo(0, 3);
+            perfilManager.AdicionarAmigo(0, 4);
 
             lista.AdicionarMensagem(0, 1, "Oi", "20:22");
             lista.AdicionarMensagem(1, 0, "Vamos comer?", "20:25");
             lista.AdicionarMensagem(0, 1, "Vamos", "20:30");
             lista.AdicionarMensagem(2, 0, "Elefante", "06:45");
 
+            //Instância das cores
+            corFundo = new SolidColorBrush(Color.FromRgb(240, 240, 250));
+            corPrincipal = new SolidColorBrush(Color.FromRgb(55, 55, 110));
+            corSecundaria = new SolidColorBrush(Color.FromRgb(75, 75, 130));
+            corPlano = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+            corLinha = new SolidColorBrush(Color.FromRgb(200, 200, 200));
+
             buscarHistorico();
 
-            for (int i = 0; i < perfilManager.BuscarQuantidadeAmigos(codUsuario); i++)
-            {
-                codUsuarioAmigo = perfilManager.BuscarCodAmigo(codUsuario, i);
-                listarAmigos(codUsuarioAmigo);
-            }
+            repetirLista(codUsuario);
         }
 
         public void buscarHistorico()
@@ -107,15 +121,16 @@ namespace Chat
             TextBlock newTextBlock = new TextBlock()
             {
                 Text = lista.BuscarConteudo(i),
+                FontSize = 14,
                 TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5),
+                Margin = new Thickness(10),
             };
 
             //Cria a borda arredondada
             Border border = new Border()
             {
-                Background = new SolidColorBrush(Colors.White),
-                Margin = new Thickness(-80, 5, 10, 5),
+                Background = corFundo,
+                Margin = new Thickness(-80, 0, 10, 10),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Right,
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -162,15 +177,16 @@ namespace Chat
             TextBlock newTextBlock = new TextBlock()
             {
                 Text = lista.BuscarConteudo(i),
+                FontSize = 14,
                 TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5),
+                Margin = new Thickness(10),
             };
 
             //Cria a borda arredondada
             Border border = new Border()
             {
                 Background = new SolidColorBrush(Colors.Bisque),
-                Margin = new Thickness(10, 5, -80, 5),
+                Margin = new Thickness(10, 0, -80, 10),
                 CornerRadius = new CornerRadius(5),
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -202,7 +218,7 @@ namespace Chat
             Grid.SetColumn(border, 0);
         }
 
-        //Botão enviar
+        //Funçao do botão enviar
         private void botaoEnviar_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
@@ -234,25 +250,6 @@ namespace Chat
             }
         }
 
-        private void botaoAmigo3_Click(object sender, RoutedEventArgs e)
-        {
-            codUsuarioAmigo = 1;
-
-            gridMensagens.Children.Clear();
-
-            buscarHistorico();
-        }
-
-        private void botaoAmigo2_Click(object sender, RoutedEventArgs e)
-        {
-            codUsuarioAmigo = 2;
-
-            gridMensagens.Children.Clear();
-
-            buscarHistorico();
-        }
-
-
         //Teste do amigo enviando a mensagem
         private void botaoEnviar2_Click(object sender, RoutedEventArgs e)
         {
@@ -268,62 +265,42 @@ namespace Chat
         }
 
         //Listar amigos
-        private void listarAmigos(int codAmigo)
+        public void listarUsuario(int codPerfil)
         {
-            //Grid para listar o amigo
-            Grid gridUsuarioAmigo = new Grid();
-            gridUsuarioAmigo.ColumnDefinitions.Add(new ColumnDefinition());
-            gridUsuarioAmigo.ColumnDefinitions.Add(new ColumnDefinition());
-
-            //Cria uma nova row
-            gridAmigos.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-            //Cria o texto para o nome do amigo
-            TextBlock newAmigoNome = new TextBlock()
+            PageCartaoChat pageCartaoChat = new PageCartaoChat(codPerfil, this);
+            Frame frame = new Frame()
             {
-                Text = perfilManager.BuscarNome(codAmigo),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(5)
+                Margin = new Thickness(10, 10, 10, 0)
             };
+            frame.Navigate(pageCartaoChat);
+            panelAmigos.Children.Add(frame);
+        }
 
-            //Cria a borda arredondada
-            Border border = new Border()
+        public void repetirLista(int codUser)
+        {
+            for (int i = 0; i < perfilManager.BuscarQuantidadeAmigos(codUser); i++)
             {
-                Background = new SolidColorBrush(Colors.White),
-                Margin = new Thickness(5, 10, 5, 0),
-                CornerRadius = new CornerRadius(5),
-                HorizontalAlignment = HorizontalAlignment.Stretch,
-                VerticalAlignment = VerticalAlignment.Center,
-                Child = gridUsuarioAmigo
-            };
+                listarUsuario(perfilManager.BuscarCodAmigo(codUsuario, i));
+            }
+        }
 
-            ImageBrush imageBrush = new ImageBrush();
-            BitmapImage bitmapImage = new BitmapImage(new Uri(perfilManager.BuscarFoto(codAmigo), UriKind.Relative));
-            imageBrush.ImageSource = bitmapImage;
+        public void enviarCodPerfil(int codPerfil)
+        {
+            codUsuarioAmigo = codPerfil;
+            gridMensagens.Children.Clear();
+            buscarHistorico();
+        }
 
-            Ellipse newAmigoFoto = new Ellipse()
+        private void campoMensagem_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(campoMensagem.Text))
             {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Center,
-                Height = 60,
-                Width = 60,
-                Fill = imageBrush
-            };
-
-            //Adiciona a borda no gridMensagens
-            gridAmigos.Children.Add(border);
-
-            //Adiciona o texto e o horário no balão
-            Grid.SetColumn(newAmigoFoto, 0);
-            Grid.SetColumn(newAmigoNome, 1);
-            gridUsuarioAmigo.Children.Add(newAmigoFoto);
-            gridUsuarioAmigo.Children.Add(newAmigoNome);
-
-            //Adiciona o balão na tela
-            Grid.SetRow(border, gridAmigos.RowDefinitions.Count - 1);
-            Grid.SetColumn(border, 0);
+                labelMensagem.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                labelMensagem.Visibility = Visibility.Hidden;
+            }
         }
     }
 }

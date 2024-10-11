@@ -9,7 +9,6 @@ namespace Chat
 {
     public class Perfil
     {
-        public int CodUsuario { get; set; }
         public string Nome { get; set; }
         public string Foto { get; set; }
         public ArrayList Amigos { get; set; } = new ArrayList();
@@ -19,11 +18,10 @@ namespace Chat
     {
         private static List<Perfil> perfil = new List<Perfil>();
 
-        public void ArmazenarPerfil(int codUser, string nome, string foto)
+        public void AdicionarPerfil(string nome, string foto)
         {
             Perfil novoPerfil = new Perfil()
             {
-                CodUsuario = codUser,
                 Nome = nome,
                 Foto = foto
             };
@@ -55,7 +53,5 @@ namespace Chat
         {
             return perfil[codUsuario].Amigos.Count;
         }
-
-
     }
 }
