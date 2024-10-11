@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\posts\\posts\\models\\teste.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\models\\teste.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\posts\\posts\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\posts\\posts\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B4CC8007-D67E-4DEB-8E65-7FCDEFE5A538}|Posts\\Posts.csproj|solutionrelative:posts\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Teste.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\Models\\Teste.cs",
+              "RelativeDocumentMoniker": "Posts\\Models\\Teste.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\Models\\Teste.cs",
+              "RelativeToolTip": "Posts\\Models\\Teste.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:46:49.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Posts\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Posts\\MainWindow.xaml.cs",
+              "ViewState": "AgIAACMAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:46:35.284Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "Posts\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Posts\\Posts\\MainWindow.xaml",
+              "RelativeToolTip": "Posts\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-10-10T01:46:29.139Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Chat.Models;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Chat
@@ -22,44 +24,49 @@ namespace Chat
     /// Interação lógica para MainWindow.xam
     /// </summary>
 
-    //Função de apagar a mensagem
-    //Colocar a data da mensagem
-    //Desativar o botão enviar quando o campo de mensagem estiver vazia
-    //Aumentar tamanho do campo quando passar pra linha de baixo
-    //Ajustar a largura máxima do balão
-    //Colocar foto e nome com quem fala
-    //Personalizar a barra de rolagem (cor e arredondamento)
-    //Mudar a cor do campo onde digita
-    //Mudar a aparência do botão de enviar
-    //Criar uma lista de amigos
-    //Permitir selecionar o amigo com quem quer conversar
+    /*
+    Função de apagar a mensagem
+    Colocar a data da mensagem
+    Desativar o botão enviar quando o campo de mensagem estiver vazia
+    Aumentar tamanho do campo quando passar pra linha de baixo
+    Ajustar a largura máxima do balão
+    Colocar foto e nome com quem fala
+    Personalizar a barra de rolagem (cor e arredondamento)
+    Mudar a cor do campo onde digita
+    Mudar a aparência do botão de enviar
+    Criar uma lista para selecionar o amigo com quem quer conversar
+    */
 
     public partial class MainWindow : Window
     {
-        private ChatMensagensManager chatMensagensManager = new ChatMensagensManager();
         private PerfilManager perfilManager = new PerfilManager();
+        private Lista lista = new Lista();
 
         int codUsuario;
         int codUsuarioAmigo;
+        string projectPath;
 
         public MainWindow()
         {
             InitializeComponent();
 
+            projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
+
             //Atribuições de teste
             codUsuario = 0; //Código do usuário logado
             codUsuarioAmigo = 2;
-            chatMensagensManager.ArmazenarMensagem(0, 1, "Oi", "20:22");
-            chatMensagensManager.ArmazenarMensagem(1, 0, "Vamos comer?", "20:25");
-            chatMensagensManager.ArmazenarMensagem(0, 1, "Vamos", "20:30");
-            chatMensagensManager.ArmazenarMensagem(2, 0, "Elefante", "06:45");
 
-            perfilManager.ArmazenarPerfil(0, "Johnny", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Gojo.png");
-            perfilManager.ArmazenarPerfil(1, "Gojo", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Gojo.png");
-            perfilManager.ArmazenarPerfil(2, "Roger", "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\Chat\\Chat\\Imagens\\Roger.png");
+            perfilManager.ArmazenarPerfil(0, "Johnny", projectPath + "\\Imagens\\Gojo.png");
+            perfilManager.ArmazenarPerfil(1, "Gojo", projectPath + "\\Imagens\\Gojo.png");
+            perfilManager.ArmazenarPerfil(2, "Roger", projectPath + "\\Imagens\\Roger.png");
 
             perfilManager.AdicionarAmigo(0, 1);
             perfilManager.AdicionarAmigo(0, 2);
+
+            lista.AdicionarMensagem(0, 1, "Oi", "20:22");
+            lista.AdicionarMensagem(1, 0, "Vamos comer?", "20:25");
+            lista.AdicionarMensagem(0, 1, "Vamos", "20:30");
+            lista.AdicionarMensagem(2, 0, "Elefante", "06:45");
 
             buscarHistorico();
 
@@ -72,13 +79,13 @@ namespace Chat
 
         public void buscarHistorico()
         {
-            for (int i = 0; i < chatMensagensManager.BuscarQuantidade(); i++)
+            for (int i = 0; i < lista.BuscarQuantidade(); i++)
             {
-                if (chatMensagensManager.VerificarMensagemRemetente(i, codUsuario, codUsuarioAmigo))
+                if (lista.VerificarMensagemRemetente(i, codUsuario, codUsuarioAmigo))
                 {
                     atualizarChatRemetente(i);
                 }
-                else if (chatMensagensManager.VerificarMensagemDestinatario(i, codUsuario, codUsuarioAmigo))
+                else if (lista.VerificarMensagemDestinatario(i, codUsuario, codUsuarioAmigo))
                 {
                     atualizarChatDestinatario(i);
                 }
@@ -99,7 +106,7 @@ namespace Chat
             //Cria o texto que vai no balão
             TextBlock newTextBlock = new TextBlock()
             {
-                Text = chatMensagensManager.BuscarConteudo(i),
+                Text = lista.BuscarConteudo(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
             };
@@ -121,7 +128,7 @@ namespace Chat
             //Pega o horário atual
             TextBlock textHorario = new TextBlock()
             {
-                Text = chatMensagensManager.BuscarHorario(i),
+                Text = lista.BuscarHorario(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -154,7 +161,7 @@ namespace Chat
             //Cria o texto que vai no balão
             TextBlock newTextBlock = new TextBlock()
             {
-                Text = chatMensagensManager.BuscarConteudo(i),
+                Text = lista.BuscarConteudo(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
             };
@@ -176,7 +183,7 @@ namespace Chat
             //Pega o horário atual
             TextBlock textHorario = new TextBlock()
             {
-                Text = chatMensagensManager.BuscarHorario(i),
+                Text = lista.BuscarHorario(i),
                 TextWrapping = TextWrapping.Wrap,
                 Margin = new Thickness(5),
                 VerticalAlignment = VerticalAlignment.Bottom,
@@ -200,9 +207,9 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                chatMensagensManager.ArmazenarMensagem(codUsuario, codUsuarioAmigo, campoMensagem.Text, DateTime.Now.ToShortTimeString());
+                lista.AdicionarMensagem(codUsuario, codUsuarioAmigo, campoMensagem.Text, DateTime.Now.ToShortTimeString());
 
-                atualizarChatRemetente(chatMensagensManager.BuscarQuantidade() - 1);
+                atualizarChatRemetente(lista.BuscarQuantidade() - 1);
 
                 campoMensagem.Clear();
             }
@@ -229,7 +236,7 @@ namespace Chat
 
         private void botaoAmigo3_Click(object sender, RoutedEventArgs e)
         {
-            codUsuarioAmigo = 3;
+            codUsuarioAmigo = 1;
 
             gridMensagens.Children.Clear();
 
@@ -251,9 +258,9 @@ namespace Chat
         {
             if (!string.IsNullOrEmpty(campoMensagem2.Text)) //Só envia se o campo de mensagem não estiver vazio.
             {
-                chatMensagensManager.ArmazenarMensagem(codUsuarioAmigo, codUsuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
+                lista.AdicionarMensagem(codUsuarioAmigo, codUsuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
 
-                atualizarChatDestinatario(chatMensagensManager.BuscarQuantidade() - 1);
+                atualizarChatDestinatario(lista.BuscarQuantidade() - 1);
 
                 campoMensagem2.Clear();
             }

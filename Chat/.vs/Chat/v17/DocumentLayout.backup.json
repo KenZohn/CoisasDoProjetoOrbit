@@ -1,0 +1,92 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\chat\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\mainwindow.xaml.cs||{8B382828-6202-11D1-8870-0000F87579D2}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\chat\\models\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\node.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|c:\\users\\zettz\\onedrive\\documentos\\fatec\\projeto ed\\johnny\\coisasdoprojetoorbit\\chat\\chat\\models\\lista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\lista.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\chat\\models\\chatmensagens.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3F7D453B-CF49-4AE4-A849-AED0A6121B62}|Chat\\Chat.csproj|solutionrelative:chat\\models\\chatmensagens.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Lista.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Lista.cs",
+              "RelativeDocumentMoniker": "Chat\\Models\\Lista.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Lista.cs",
+              "RelativeToolTip": "Chat\\Models\\Lista.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHMAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:57:14.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Node.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Node.cs",
+              "RelativeDocumentMoniker": "Chat\\Models\\Node.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\Node.cs",
+              "RelativeToolTip": "Chat\\Models\\Node.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAYwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:51:10.938Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ChatMensagens.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\ChatMensagens.cs",
+              "RelativeDocumentMoniker": "Chat\\Models\\ChatMensagens.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\Models\\ChatMensagens.cs",
+              "RelativeToolTip": "Chat\\Models\\ChatMensagens.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAuwBUAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:44:54.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "Chat\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\ZettZ\\OneDrive\\Documentos\\Fatec\\Projeto ED\\Johnny\\CoisasDoProjetoOrbit\\Chat\\Chat\\MainWindow.xaml.cs",
+              "RelativeToolTip": "Chat\\MainWindow.xaml.cs",
+              "ViewState": "AgIAADQAAAAAAAAAAAAQwDgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-10T01:45:57.634Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

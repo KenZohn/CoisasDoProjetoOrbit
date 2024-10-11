@@ -63,14 +63,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ChatMensagens.cs" />
+    <Compile Include="Models\ChatMensagens.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Perfil.cs" />
+    <Compile Include="Models\Lista.cs" />
+    <Compile Include="Models\Node.cs" />
+    <Compile Include="Models\Perfil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
