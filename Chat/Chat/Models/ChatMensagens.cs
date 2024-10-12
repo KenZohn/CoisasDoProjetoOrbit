@@ -32,7 +32,7 @@ namespace Chat
             chatMensagens.Add(novaMensagem);
         }
 
-        public Boolean VerificarMensagemRemetente(int i, int usuario, int usuario2)
+        public bool VerificarMensagemRemetente(int i, int usuario, int usuario2)
         {
             if (chatMensagens[i].Remetente == usuario && chatMensagens[i].Destinatario == usuario2)
             {
@@ -41,9 +41,18 @@ namespace Chat
             return false;
         }
 
-        public Boolean VerificarMensagemDestinatario(int i, int usuario, int usuario2)
+        public bool VerificarMensagemDestinatario(int i, int usuario, int usuario2)
         {
             if (chatMensagens[i].Remetente == usuario2 && chatMensagens[i].Destinatario == usuario)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool VerificarUltimaMensagem(int i, int usuario)
+        {
+            if (chatMensagens[i].Remetente == usuario || chatMensagens[i].Destinatario == usuario)
             {
                 return true;
             }

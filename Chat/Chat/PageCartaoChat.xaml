@@ -5,15 +5,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Chat"
       mc:Ignorable="d" 
-      d:DesignHeight="60" d:DesignWidth="350"
+      d:DesignHeight="65" d:DesignWidth="350"
       Title="PageCartaoChat">
-
-    <Grid x:Name="gridCartao" Background="White" MouseLeftButtonUp="gridCartao_MouseLeftButtonUp">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width = "Auto"/>
-            <ColumnDefinition Width = "*"/>
-        </Grid.ColumnDefinitions>
-        <Ellipse x:Name="foto"   Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="45" Width="45" Stretch="Fill" Margin="5" Stroke="#37376E"/>
-        <TextBlock x:Name="textNome" Grid.Column="1" VerticalAlignment="Center" Margin="5" Text="Nome do amigo" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
-    </Grid>
+    <Border CornerRadius="5" x:Name="gridCartao" MouseLeftButtonUp="gridCartao_MouseLeftButtonUp" Style="{StaticResource grid}">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="2" ShadowDepth="0"/>
+        </Border.Effect>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "Auto"/>
+                <ColumnDefinition Width = "*"/>
+            </Grid.ColumnDefinitions>
+            <Ellipse x:Name="foto" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Height="50" Width="50" Stretch="Fill" Margin="10, 5, 5, 5" Stroke="#37376E"/>
+            <TextBlock x:Name="textNome" Grid.Column="1" VerticalAlignment="Center" Margin="5" Text="Nome do amigo" FontSize="16" FontWeight="Bold" TextWrapping="Wrap"/>
+        </Grid>
+    </Border>
 </Page>

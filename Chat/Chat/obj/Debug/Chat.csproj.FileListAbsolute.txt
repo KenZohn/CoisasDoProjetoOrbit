@@ -75,3 +75,4 @@ C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\CoisasDoProjetoOrbit\
 C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\CoisasDoProjetoOrbit\Chat\Chat\obj\Debug\Chat.pdb
 C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\CoisasDoProjetoOrbit\Chat\Chat\obj\Debug\PageCartaoChat.g.cs
 C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\CoisasDoProjetoOrbit\Chat\Chat\obj\Debug\PageCartaoChat.baml
+C:\Users\ZettZ\OneDrive\Documentos\Fatec\Projeto ED\Johnny\CoisasDoProjetoOrbit\Chat\Chat\obj\Debug\App.baml

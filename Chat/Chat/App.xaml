@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:Chat"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-
+        <Style x:Key="grid" TargetType="Border">
+            <Setter Property="Background" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#F0F0FA"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Application.Resources>
 </Application>

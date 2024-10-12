@@ -25,16 +25,15 @@ namespace Chat
     /// </summary>
 
     /*
-    Função de apagar a mensagem
+    Adiconar função de apagar a mensagem
     Colocar a data da mensagem
     Desativar o botão enviar quando o campo de mensagem estiver vazia
-    Aumentar tamanho do campo quando passar pra linha de baixo
-    Ajustar a largura máxima do balão
-    Colocar foto e nome com quem fala
-    Personalizar a barra de rolagem (cor e arredondamento)
-    Mudar a cor do campo onde digita
     Mudar a aparência do botão de enviar
     Criar uma lista para selecionar o amigo com quem quer conversar
+    Focar no campo mensagem ao selecionar amigo
+    Mudar cor do cartão ao selecionar amigo
+    Adicionar cartão do amigo selecionado no topo do chat
+    Criar cartão para amigo selecionado
     */
 
     public partial class MainWindow : Window
@@ -270,7 +269,8 @@ namespace Chat
             PageCartaoChat pageCartaoChat = new PageCartaoChat(codPerfil, this);
             Frame frame = new Frame()
             {
-                Margin = new Thickness(10, 10, 10, 0)
+                Margin = new Thickness(10, 10, 10, 0),
+                Height = 65
             };
             frame.Navigate(pageCartaoChat);
             panelAmigos.Children.Add(frame);
@@ -284,11 +284,18 @@ namespace Chat
             }
         }
 
+        public void exibirUsuarioSelecionado(int codPerfil)
+        {
+            PageCartaoChat pageCartaoChat = new PageCartaoChat(codPerfil, this);
+            frameAmigoSelecionado.Navigate(pageCartaoChat);
+        }
+
         public void enviarCodPerfil(int codPerfil)
         {
             codUsuarioAmigo = codPerfil;
             gridMensagens.Children.Clear();
             buscarHistorico();
+            exibirUsuarioSelecionado(codPerfil);
         }
 
         private void campoMensagem_TextChanged(object sender, TextChangedEventArgs e)
