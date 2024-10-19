@@ -24,18 +24,6 @@ namespace Chat
     /// Interação lógica para MainWindow.xam
     /// </summary>
 
-    /*
-    Adiconar função de apagar a mensagem
-    Colocar a data da mensagem
-    Desativar o botão enviar quando o campo de mensagem estiver vazia
-    Mudar a aparência do botão de enviar
-    Criar uma lista para selecionar o amigo com quem quer conversar
-    Focar no campo mensagem ao selecionar amigo
-    Mudar cor do cartão ao selecionar amigo
-    Adicionar cartão do amigo selecionado no topo do chat
-    Criar cartão para amigo selecionado
-    */
-
     public partial class MainWindow : Window
     {
         private PerfilManager perfilManager = new PerfilManager();
@@ -44,6 +32,10 @@ namespace Chat
         int codUsuario;
         int codUsuarioAmigo;
         string projectPath;
+        string data;
+
+        Border borderCartao;
+        TextBlock textNome;
 
         //Cores
         SolidColorBrush corFundo;
@@ -59,8 +51,8 @@ namespace Chat
             projectPath = Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).Parent.Parent.FullName;
 
             //Atribuições de teste
-            codUsuario = 0; //Código do usuário logado
-            codUsuarioAmigo = 1;
+            codUsuario = 0;
+            codUsuarioAmigo = 0;
 
             perfilManager.AdicionarPerfil("Johnny Bravo", projectPath + "\\Imagens\\Gojo.png");
             perfilManager.AdicionarPerfil("Gojo Satorino", projectPath + "\\Imagens\\Gojo.png");
@@ -73,10 +65,11 @@ namespace Chat
             perfilManager.AdicionarAmigo(0, 3);
             perfilManager.AdicionarAmigo(0, 4);
 
-            lista.AdicionarMensagem(0, 1, "Oi", "20:22");
-            lista.AdicionarMensagem(1, 0, "Vamos comer?", "20:25");
-            lista.AdicionarMensagem(0, 1, "Vamos", "20:30");
-            lista.AdicionarMensagem(2, 0, "Elefante", "06:45");
+            lista.AdicionarMensagem(0, 1, "Oi", "01/10/2024", "20:22");
+            lista.AdicionarMensagem(1, 0, "Vamos comer?", "02/10/2024", "20:25");
+            lista.AdicionarMensagem(0, 1, "Vamos", "02/10/2024", "20:30");
+            lista.AdicionarMensagem(2, 0, "Elefante", "03/10/2024", "06:45");
+            lista.AdicionarMensagem(0, 1, "Marmota", "04/10/2024", "10:45");
 
             //Instância das cores
             corFundo = new SolidColorBrush(Color.FromRgb(240, 240, 250));
@@ -85,21 +78,23 @@ namespace Chat
             corPlano = new SolidColorBrush(Color.FromRgb(255, 255, 255));
             corLinha = new SolidColorBrush(Color.FromRgb(200, 200, 200));
 
-            buscarHistorico();
-
+            campoMensagem.IsEnabled = false;
             repetirLista(codUsuario);
         }
 
         public void buscarHistorico()
         {
+            data = "0";
             for (int i = 0; i < lista.BuscarQuantidade(); i++)
             {
                 if (lista.VerificarMensagemRemetente(i, codUsuario, codUsuarioAmigo))
                 {
+                    atualizarData(i);
                     atualizarChatRemetente(i);
                 }
                 else if (lista.VerificarMensagemDestinatario(i, codUsuario, codUsuarioAmigo))
                 {
+                    atualizarData(i);
                     atualizarChatDestinatario(i);
                 }
             }
@@ -217,18 +212,51 @@ namespace Chat
             Grid.SetColumn(border, 0);
         }
 
-        //Funçao do botão enviar
-        private void botaoEnviar_Click(object sender, RoutedEventArgs e)
+        private void exibirNovaData(int i, string data)
         {
-            if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
+            Grid gridData = new Grid();
+
+            gridMensagens.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            TextBlock newTextBlock = new TextBlock()
             {
-                lista.AdicionarMensagem(codUsuario, codUsuarioAmigo, campoMensagem.Text, DateTime.Now.ToShortTimeString());
+                Text = data,
+                FontSize = 12,
+                Margin = new Thickness(5),
+            };
 
-                atualizarChatRemetente(lista.BuscarQuantidade() - 1);
+            gridData.Children.Add(newTextBlock);
 
-                campoMensagem.Clear();
+            //Cria a borda arredondada
+            Border border = new Border()
+            {
+                Background = new SolidColorBrush(Colors.LightGray),
+                Margin = new Thickness(10, 0, 0, 10),
+                CornerRadius = new CornerRadius(5),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Bottom,
+                Child = gridData
+            };
+
+            gridMensagens.Children.Add(border);
+
+            Grid.SetRow(border, gridMensagens.RowDefinitions.Count - 1);
+            Grid.SetColumn(border, 0);
+        }
+
+        private void atualizarData(int i)
+        {
+            if (data != lista.BuscarData(i))
+            {
+                data = lista.BuscarData(i);
+                exibirNovaData(i, data);
             }
-            campoMensagem.Focus();
+        }
+
+        //Funçao do botão enviar
+        private void botaoEnviar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            enviarMensagem();
         }
 
         //Enviar a mensagem pressionando "Enter"
@@ -236,8 +264,23 @@ namespace Chat
         {
             if (e.Key == Key.Enter)
             {
-                botaoEnviar.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                enviarMensagem();
             }
+        }
+
+        private void enviarMensagem()
+        {
+            if (!string.IsNullOrEmpty(campoMensagem.Text)) //Só envia se o campo de mensagem não estiver vazio.
+            {
+                lista.AdicionarMensagem(codUsuario, codUsuarioAmigo, campoMensagem.Text, DateTime.Now.ToShortDateString() ,DateTime.Now.ToShortTimeString());
+
+                atualizarData(lista.BuscarQuantidade() - 1);
+
+                atualizarChatRemetente(lista.BuscarQuantidade() - 1);
+
+                campoMensagem.Clear();
+            }
+            campoMensagem.Focus();
         }
 
         //Descer a barra de rolagem quando enviar uma mensagem
@@ -249,30 +292,14 @@ namespace Chat
             }
         }
 
-        //Teste do amigo enviando a mensagem
-        private void botaoEnviar2_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(campoMensagem2.Text)) //Só envia se o campo de mensagem não estiver vazio.
-            {
-                lista.AdicionarMensagem(codUsuarioAmigo, codUsuario, campoMensagem2.Text, DateTime.Now.ToShortTimeString());
-
-                atualizarChatDestinatario(lista.BuscarQuantidade() - 1);
-
-                campoMensagem2.Clear();
-            }
-            campoMensagem2.Focus();
-        }
-
         //Listar amigos
         public void listarUsuario(int codPerfil)
         {
-            PageCartaoChat pageCartaoChat = new PageCartaoChat(codPerfil, this);
             Frame frame = new Frame()
             {
-                Margin = new Thickness(10, 10, 10, 0),
                 Height = 65
             };
-            frame.Navigate(pageCartaoChat);
+            frame.Navigate(new PageCartaoChat(codPerfil, this));
             panelAmigos.Children.Add(frame);
         }
 
@@ -286,16 +313,22 @@ namespace Chat
 
         public void exibirUsuarioSelecionado(int codPerfil)
         {
-            PageCartaoChat pageCartaoChat = new PageCartaoChat(codPerfil, this);
-            frameAmigoSelecionado.Navigate(pageCartaoChat);
+            frameAmigoSelecionado.Navigate(new PageCartaoChatSelecionado(codPerfil));
         }
 
-        public void enviarCodPerfil(int codPerfil)
+        public void enviarCodPerfil(int codPerfil, Border _borderCartao, TextBlock _textNome)
         {
             codUsuarioAmigo = codPerfil;
             gridMensagens.Children.Clear();
             buscarHistorico();
             exibirUsuarioSelecionado(codPerfil);
+            if (borderCartao != null)
+            {
+                borderCartao.Background = new SolidColorBrush(Colors.White);
+                textNome.Foreground = new SolidColorBrush(Colors.Black);
+            }
+            borderCartao = _borderCartao;
+            textNome = _textNome;
         }
 
         private void campoMensagem_TextChanged(object sender, TextChangedEventArgs e)

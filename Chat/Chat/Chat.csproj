@@ -63,12 +63,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\ChatMensagens.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="PageCartaoChat.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PageCartaoChatSelecionado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -79,6 +82,9 @@
     <Compile Include="Models\Perfil.cs" />
     <Compile Include="PageCartaoChat.xaml.cs">
       <DependentUpon>PageCartaoChat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PageCartaoChatSelecionado.xaml.cs">
+      <DependentUpon>PageCartaoChatSelecionado.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -109,6 +115,9 @@
     <Resource Include="Imagens\Gojo.png" />
     <Resource Include="Imagens\Johnny.png" />
     <Resource Include="Imagens\Roger.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagens\Enviar.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

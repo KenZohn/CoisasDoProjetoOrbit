@@ -16,17 +16,15 @@ using System.Windows.Shapes;
 namespace Chat
 {
     /// <summary>
-    /// Interação lógica para PageCartaoChat.xam
+    /// Interação lógica para PageCartaoChatSelecionado.xam
     /// </summary>
-    public partial class PageCartaoChat : Page
+    public partial class PageCartaoChatSelecionado : Page
     {
         PerfilManager perfil = new PerfilManager();
-        MainWindow mainWindow;
         int codPerfil;
-        public PageCartaoChat(int _codPerfil, MainWindow _mainWindow)
+        public PageCartaoChatSelecionado(int _codPerfil)
         {
             InitializeComponent();
-            mainWindow = _mainWindow;
             codPerfil = _codPerfil;
             buscarUsuario(codPerfil);
         }
@@ -35,16 +33,6 @@ namespace Chat
         {
             foto.Fill = new ImageBrush(new BitmapImage(new Uri(perfil.BuscarFoto(codPerfil))));
             textNome.Text = perfil.BuscarNome(codPerfil);
-        }
-
-        private void gridCartao_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            mainWindow.enviarCodPerfil(codPerfil, gridCartao, textNome);
-            mainWindow.campoMensagem.IsEnabled = true;
-            mainWindow.campoMensagem.Clear();
-            mainWindow.campoMensagem.Focus();
-            gridCartao.Background = new SolidColorBrush(Color.FromRgb(75, 75, 130));
-            textNome.Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255));
         }
     }
 }

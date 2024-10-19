@@ -13,12 +13,14 @@ namespace Chat.Models
         private int Remetente;
         private int Destinatario;
         private string Conteudo;
+        private string Data;
         private string Horario;
-        public Node(int remetente, int destinatario, string conteudo, string horario)
+        public Node(int remetente, int destinatario, string conteudo, string data, string horario)
         {
             Remetente = remetente;
             Destinatario = destinatario;
             Conteudo = conteudo;
+            Data = data;
             Horario = horario;
             Prox = null;
         }
@@ -46,6 +48,11 @@ namespace Chat.Models
         public string getConteudo()
         {
             return Conteudo;
+        }
+
+        public string getData()
+        {
+            return Data;
         }
 
         public string getHorario()

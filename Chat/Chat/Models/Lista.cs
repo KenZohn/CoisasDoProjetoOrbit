@@ -15,16 +15,16 @@ namespace Chat.Models
             inicio = fim = null;
         }
 
-        public void AdicionarMensagem(int remetente, int destinatario, string conteudo, string horario)
+        public void AdicionarMensagem(int remetente, int destinatario, string conteudo, string data, string horario)
         {
             if (inicio != null)
             {
-                fim.setProx(new Node(remetente, destinatario, conteudo, horario));
+                fim.setProx(new Node(remetente, destinatario, conteudo, data, horario));
                 fim = fim.getProx();
             }
             else
             {
-                inicio = fim = new Node(remetente, destinatario, conteudo, horario);
+                inicio = fim = new Node(remetente, destinatario, conteudo, data, horario);
             }
         }
 
@@ -78,6 +78,23 @@ namespace Chat.Models
                 if (contador == i)
                 {
                     return aux.getConteudo();
+                }
+                aux = aux.getProx();
+                contador++;
+            }
+            return null;
+        }
+
+        public string BuscarData(int i)
+        {
+            Node aux = inicio;
+            int contador = 0;
+
+            while (aux != null)
+            {
+                if (contador == i)
+                {
+                    return aux.getData();
                 }
                 aux = aux.getProx();
                 contador++;
